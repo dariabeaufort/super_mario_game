@@ -1,0 +1,7 @@
+build_*/
+*.exe
+*.ii
+*.s
+*.o
+lib/
+CMakeFiles/
