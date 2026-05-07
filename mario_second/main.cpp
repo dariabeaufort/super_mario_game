@@ -7,22 +7,22 @@
 #define map_width 80
 #define map_height 25
 
-typedef struct SObject {
+struct Object {
 	float x, y;
 	float width, height;
 	float vert_speed;
-	BOOL is_fly;
+	bool is_fly;
 	char c_type;
 	float horiz_speed;
-} TObject;
+};
 
 char map[map_height][map_width + 1];
-TObject mario;
+Object mario;
 
-TObject *brick = NULL;
+Object *brick = nullptr;
 int brick_length;
 
-TObject *moving = NULL;
+Object *moving = nullptr;
 int moving_length;
 
 int level = 1;
@@ -47,13 +47,13 @@ void show_map() {
 	}
 }
 
-void set_object_pos(TObject *obj, float x_pos, float y_pos) {
+void set_object_pos(Object *obj, float x_pos, float y_pos) {
 	obj->x = x_pos;
 	obj->y = y_pos;
 }
 
 void init_object(
-	TObject *obj,
+	Object *obj,
 	float x_pos, 
 	float y_pos, 
 	float obj_width, 
@@ -67,9 +67,9 @@ void init_object(
 	obj->horiz_speed = 0.5;
 }
 
-BOOL is_collision(TObject obj_1, TObject obj_2);
+bool is_collision(Object obj_1, Object obj_2);
 void create_level(int lvl);
-TObject *get_new_moving();
+Object *get_new_moving();
 
 void player_dead() {
 	system("color 4F");
@@ -77,15 +77,15 @@ void player_dead() {
 	create_level(level);
 }
 
-void vert_move_object(TObject *obj) {
-	obj->is_fly = TRUE;
+void vert_move_object(Object *obj) {
+	obj->is_fly = true;
 	obj->vert_speed += 0.05;
 	set_object_pos(obj, obj->x, obj->y + obj->vert_speed);
 	
 	for (int i = 0; i < brick_length; i++) {
 		if (is_collision(*obj, brick[i])) {
 			if (obj->vert_speed > 0) {
-				obj->is_fly = FALSE;
+				obj->is_fly = false;
 			}
 			
 			if ((brick[i].c_type == '?') 
@@ -118,14 +118,14 @@ void vert_move_object(TObject *obj) {
 void delete_moving(int i) {
 	moving_length--;
 	moving[i] = moving[moving_length];
-	moving = (TObject*)realloc(moving, sizeof(*moving) * moving_length);
+	moving = (Object*)realloc(moving, sizeof(*moving) * moving_length);
 }
 
 void mario_collision() {
 	for (int i = 0; i < moving_length; i++) {
 		if (is_collision(mario, moving[i])) {
 			if (moving[i].c_type == 'o') {
-				if ((mario.is_fly == TRUE) 
+				if ((mario.is_fly == true) 
 					&& (mario.vert_speed > 0) 
 					&& (mario.y + mario.height 
 					< moving[i].y + moving[i].height * 0.5)) {
@@ -148,7 +148,7 @@ void mario_collision() {
 	}
 }
 
-void horizon_move_object(TObject *obj) {
+void horizon_move_object(Object *obj) {
 	obj->x += obj->horiz_speed;
 	
 	for (int i = 0; i < brick_length; i++) { 
@@ -160,21 +160,21 @@ void horizon_move_object(TObject *obj) {
 	}
 	
 	if (obj->c_type == 'o') {
-		TObject tmp = *obj;
+		Object tmp = *obj;
 		vert_move_object(&tmp);
 		
-		if (tmp.is_fly == TRUE) {
+		if (tmp.is_fly == true) {
 			obj->x -= obj->horiz_speed;
 			obj->horiz_speed = -obj->horiz_speed;
 		}
 	}
 }
 
-BOOL is_pos_in_map(int x, int y) {
+bool is_pos_in_map(int x, int y) {
 	return ((x >= 0) && (x < map_width) && (y >= 0) && (y < map_height));
 }
 
-void put_object_on_map(TObject obj) {
+void put_object_on_map(Object obj) {
 	int ix = (int)round(obj.x);
 	int iy = (int)round(obj.y);
 	int i_width = (int)round(obj.width);
@@ -215,22 +215,22 @@ void horizon_move_map(float dx) {
 	}
 }
 
-BOOL is_collision(TObject obj_1, TObject obj_2) {
+bool is_collision(Object obj_1, Object obj_2) {
 	return ((obj_1.x + obj_1.width) > obj_2.x) 
 		   && (obj_1.x < (obj_2.x + obj_2.width)) 
 		   && ((obj_1.y + obj_1.height) > obj_2.y) 
 		   && (obj_1.y < (obj_2.y + obj_2.height));
 }
 
-TObject *get_new_brick() {
+Object *get_new_brick() {
 	brick_length++;
-	brick = (TObject*)realloc( brick, sizeof(*brick) * brick_length);
+	brick = (Object*)realloc( brick, sizeof(*brick) * brick_length);
 	return brick + brick_length - 1;
 }
 
-TObject *get_new_moving() {
+Object *get_new_moving() {
 	moving_length++;
-	moving = (TObject*)realloc(moving, sizeof(*moving) * moving_length);
+	moving = (Object*)realloc(moving, sizeof(*moving) * moving_length);
 	return moving + moving_length - 1;
 }
 
@@ -247,9 +247,9 @@ void create_level(int lvl) {
 	system("color DF");
 	
 	brick_length = 0;
-	brick = (TObject*)realloc(brick, 0);
+	brick = (Object*)realloc(brick, 0);
 	moving_length = 0;
-	moving = (TObject*)realloc(moving, 0);
+	moving = (Object*)realloc(moving, 0);
 	
 	init_object(&mario, 39, 10, 3, 3, '@');
 	score = 0;
@@ -312,7 +312,7 @@ int main() {
 	do {
 		clear_map();
 		
-		if ((mario.is_fly == FALSE) && (GetKeyState(VK_SPACE) < 0)) {
+		if ((mario.is_fly == false) && (GetKeyState(VK_SPACE) < 0)) {
 			mario.vert_speed = -1;
 		}
 		if (GetKeyState('A') < 0) {
