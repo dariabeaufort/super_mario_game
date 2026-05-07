@@ -48,8 +48,8 @@ void show_map() {
 }
 
 void set_object_pos(TObject *obj, float x_pos, float y_pos) {
-	(*obj).x = x_pos;
-	(*obj).y = y_pos;
+	obj->x = x_pos;
+	obj->y = y_pos;
 }
 
 void init_object(
@@ -60,11 +60,11 @@ void init_object(
 	float obj_height, 
 	char in_type) {
 	set_object_pos(obj, x_pos, y_pos);
-	(*obj).width = obj_width;
-	(*obj).height = obj_height;
-	(*obj).vert_speed = 0;
-	(*obj).c_type = in_type;
-	(*obj).horiz_speed = 0.5;
+	obj->width = obj_width;
+	obj->height = obj_height;
+	obj->vert_speed = 0;
+	obj->c_type = in_type;
+	obj->horiz_speed = 0.5;
 }
 
 BOOL is_collision(TObject obj_1, TObject obj_2);
@@ -78,26 +78,26 @@ void player_dead() {
 }
 
 void vert_move_object(TObject *obj) {
-	(*obj).is_fly = TRUE;
-	(*obj).vert_speed += 0.05;
-	set_object_pos(obj, (*obj).x, (*obj).y + (*obj).vert_speed);
+	obj->is_fly = TRUE;
+	obj->vert_speed += 0.05;
+	set_object_pos(obj, obj->x, obj->y + obj->vert_speed);
 	
 	for (int i = 0; i < brick_length; i++) {
 		if (is_collision(*obj, brick[i])) {
-			if (obj[0].vert_speed > 0) {
-				obj[0].is_fly = FALSE;
+			if (obj->vert_speed > 0) {
+				obj->is_fly = FALSE;
 			}
 			
 			if ((brick[i].c_type == '?') 
-				&& (obj[0].vert_speed < 0) 
+				&& (obj->vert_speed < 0) 
 			    && (obj == &mario)) {
 				brick[i].c_type = '-';
 				init_object(get_new_moving(), brick[i].x, brick[i].y - 3, 3, 2, '$');
 				moving[moving_length - 1].vert_speed = -0.3;
 			}
 			
-			(*obj).y -= (*obj).vert_speed;
-			(*obj).vert_speed = 0;
+			obj->y -= obj->vert_speed;
+			obj->vert_speed = 0;
 
 			if (brick[i].c_type == '+') {
 				level++;
@@ -149,23 +149,23 @@ void mario_collision() {
 }
 
 void horizon_move_object(TObject *obj) {
-	obj[0].x += obj[0].horiz_speed;
+	obj->x += obj->horiz_speed;
 	
 	for (int i = 0; i < brick_length; i++) { 
-		if (is_collision(obj[0], brick[i])) {
-			obj[0].x -= obj[0].horiz_speed;
-			obj[0].horiz_speed = -obj[0].horiz_speed;
+		if (is_collision(*obj, brick[i])) {
+			obj->x -= obj->horiz_speed;
+			obj->horiz_speed = -obj->horiz_speed;
 			return;
 		}
 	}
 	
-	if (obj[0].c_type == 'o') {
+	if (obj->c_type == 'o') {
 		TObject tmp = *obj;
 		vert_move_object(&tmp);
 		
 		if (tmp.is_fly == TRUE) {
-			obj[0].x -= obj[0].horiz_speed;
-			obj[0].horiz_speed = -obj[0].horiz_speed;
+			obj->x -= obj->horiz_speed;
+			obj->horiz_speed = -obj->horiz_speed;
 		}
 	}
 }
