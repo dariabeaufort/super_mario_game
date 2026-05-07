@@ -175,10 +175,10 @@ bool is_pos_in_map(int x, int y) {
 }
 
 void put_object_on_map(Object obj) {
-	int ix = (int)round(obj.x);
-	int iy = (int)round(obj.y);
-	int i_width = (int)round(obj.width);
-	int i_height = (int)round(obj.height);
+	int ix = static_cast<int>(round(obj.x));
+	int iy = static_cast<int>(round(obj.y));
+	int i_width = static_cast<int>(round(obj.width));
+	int i_height = static_cast<int>(round(obj.height));
 	
 	for (int i = ix; i < (ix + i_width); i++) {
 		for (int j = iy; j < (iy + i_height); j++) {
@@ -224,13 +224,13 @@ bool is_collision(Object obj_1, Object obj_2) {
 
 Object *get_new_brick() {
 	brick_length++;
-	brick = (Object*)realloc( brick, sizeof(*brick) * brick_length);
+	brick = static_cast<Object*>(realloc(brick, sizeof(*brick) * brick_length));
 	return brick + brick_length - 1;
 }
 
 Object *get_new_moving() {
 	moving_length++;
-	moving = (Object*)realloc(moving, sizeof(*moving) * moving_length);
+	moving = static_cast<Object*>(realloc(moving, sizeof(*moving) * moving_length));
 	return moving + moving_length - 1;
 }
 
@@ -247,9 +247,9 @@ void create_level(int lvl) {
 	system("color DF");
 	
 	brick_length = 0;
-	brick = (Object*)realloc(brick, 0);
+	brick = static_cast<Object*>(realloc(brick, 0));
 	moving_length = 0;
-	moving = (Object*)realloc(moving, 0);
+	moving = static_cast<Object*>(realloc(moving, 0));
 	
 	init_object(&mario, 39, 10, 3, 3, '@');
 	score = 0;
