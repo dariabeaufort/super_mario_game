@@ -4,8 +4,20 @@
 #include <math.h>
 #include <windows.h>
 
-#define map_width 80
-#define map_height 25
+static const int MAP_WIDTH = 80;
+static const int MAP_HEIGHT = 25;
+
+static const float GRAVITY = 0.05f;
+static const float JUMP_SPEED = -1.0f;
+static const float GROUND_SPEED = 0.5f;
+static const float MOVING_VERT_SPEED = -0.3f;
+
+static const int DEAD_SCREEN_TIME_MS = 500;
+static const int LVL_SWITCH_TIME_MS = 500;
+static const int FRAME_SLEEP_MS = 10;
+
+static const int SCORE_TEXT_X = 5;
+static const int SCORE_TEXT_Y = 1;
 
 struct Object {
 	float x, y;
@@ -16,7 +28,7 @@ struct Object {
 	float horiz_speed;
 };
 
-char map[map_height][map_width + 1];
+char map[MAP_HEIGHT][MAP_WIDTH + 1];
 Object mario;
 
 Object *brick = nullptr;
@@ -30,19 +42,19 @@ int score;
 int max_lvl;
 
 void clear_map() {
-	for (int i = 0; i < map_width; i++) {
+	for (int i = 0; i < MAP_WIDTH; i++) {
 		map[0][i] = ' ';
 	}
-	map[0][map_width] = '\0';
+	map[0][MAP_WIDTH] = '\0';
 	
-	for (int j = 1; j < map_height; j++) {
+	for (int j = 1; j < MAP_HEIGHT; j++) {
 		sprintf(map[j], map[0]);
 	}
 }
 
 void show_map() {
-	map[map_height - 1][map_width - 1] = '\0';
-	for (int j = 0; j < map_height; j++) {
+	map[MAP_HEIGHT - 1][MAP_WIDTH - 1] = '\0';
+	for (int j = 0; j < MAP_HEIGHT; j++) {
 		printf("%s", map[j]);
 	}
 }
@@ -64,7 +76,7 @@ void init_object(
 	obj->height = obj_height;
 	obj->vert_speed = 0;
 	obj->c_type = in_type;
-	obj->horiz_speed = 0.5;
+	obj->horiz_speed = GROUND_SPEED;
 }
 
 bool is_collision(Object obj_1, Object obj_2);
@@ -73,13 +85,13 @@ Object *get_new_moving();
 
 void player_dead() {
 	system("color 4F");
-	Sleep(500);
+	Sleep(DEAD_SCREEN_TIME_MS);
 	create_level(level);
 }
 
 void vert_move_object(Object *obj) {
 	obj->is_fly = true;
-	obj->vert_speed += 0.05;
+	obj->vert_speed += GRAVITY;
 	set_object_pos(obj, obj->x, obj->y + obj->vert_speed);
 	
 	for (int i = 0; i < brick_length; i++) {
@@ -93,7 +105,7 @@ void vert_move_object(Object *obj) {
 			    && (obj == &mario)) {
 				brick[i].c_type = '-';
 				init_object(get_new_moving(), brick[i].x, brick[i].y - 3, 3, 2, '$');
-				moving[moving_length - 1].vert_speed = -0.3;
+				moving[moving_length - 1].vert_speed = MOVING_VERT_SPEED;
 			}
 			
 			obj->y -= obj->vert_speed;
@@ -107,7 +119,7 @@ void vert_move_object(Object *obj) {
 				}
 				
 				system("color 2F");
-				Sleep(500);
+				Sleep(LVL_SWITCH_TIME_MS);
 				create_level(level);
 			}
 			break;
@@ -171,7 +183,7 @@ void horizon_move_object(Object *obj) {
 }
 
 bool is_pos_in_map(int x, int y) {
-	return ((x >= 0) && (x < map_width) && (y >= 0) && (y < map_height));
+	return ((x >= 0) && (x < MAP_WIDTH) && (y >= 0) && (y < MAP_HEIGHT));
 }
 
 void put_object_on_map(Object obj) {
@@ -239,7 +251,7 @@ void put_score_on_map() {
 	sprintf(c, "Score: %d", score);
 	int len = strlen(c);
 	for (int i = 0; i < len; i++) {
-		map[1][i + 5] = c[i];
+		map[SCORE_TEXT_Y][i + SCORE_TEXT_X] = c[i];
 	}
 }
 
@@ -313,7 +325,7 @@ int main() {
 		clear_map();
 		
 		if ((mario.is_fly == false) && (GetKeyState(VK_SPACE) < 0)) {
-			mario.vert_speed = -1;
+			mario.vert_speed = JUMP_SPEED;
 		}
 		if (GetKeyState('A') < 0) {
 			horizon_move_map(1);
@@ -322,7 +334,7 @@ int main() {
 			horizon_move_map(-1);
 		}
 		
-		if (mario.y > map_height) {
+		if (mario.y > MAP_HEIGHT) {
 			player_dead();
 		}
 		
@@ -335,7 +347,7 @@ int main() {
 		for (int i = 0; i < moving_length; i++) {
 			vert_move_object(moving + i);
 			horizon_move_object(moving + i);
-			if (moving[i].y > map_height) {
+			if (moving[i].y > MAP_HEIGHT) {
 				delete_moving(i);
 				i--;
 				continue;
@@ -348,7 +360,7 @@ int main() {
 		set_cur(0, 0);
 		show_map();
 		
-		Sleep(10);
+		Sleep(FRAME_SLEEP_MS);
 	} while (GetKeyState(VK_ESCAPE) >= 0);
 	return 0;
 }
