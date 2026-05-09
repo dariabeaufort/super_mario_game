@@ -4,14 +4,17 @@
 #include <math.h>
 #include <windows.h>
 
+#include "game_state.hpp"
 #include "object.hpp"
 
 using jbeau::object::Object;
 using jbeau::object::set_object_pos;
 using jbeau::object::init_object;
 
-static const int MAP_WIDTH = 80;
-static const int MAP_HEIGHT = 25;
+using namespace jbeau::state;
+
+//static const int MAP_WIDTH = 80;
+//static const int MAP_HEIGHT = 25;
 
 static const float GRAVITY = 0.05f;
 static const float JUMP_SPEED = -1.0f;
@@ -37,19 +40,6 @@ static const char BRICK_SYMBOL = '#';
 static const char BONUS_BRICK_SYMBOL = '?';
 static const char EMPTY_BRICK_SYMBOL = '-';
 static const char FINISH_SYMBOL = '+';
-
-char map[MAP_HEIGHT][MAP_WIDTH + 1];
-Object mario;
-
-Object *brick = nullptr;
-int brick_length;
-
-Object *moving = nullptr;
-int moving_length;
-
-int level = 1;
-int score;
-int max_lvl;
 
 void clear_map() {
 	for (int i = 0; i < MAP_WIDTH; i++) {
