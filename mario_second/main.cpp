@@ -4,6 +4,12 @@
 #include <math.h>
 #include <windows.h>
 
+#include "object.hpp"
+
+using jbeau::object::Object;
+using jbeau::object::set_object_pos;
+using jbeau::object::init_object;
+
 static const int MAP_WIDTH = 80;
 static const int MAP_HEIGHT = 25;
 
@@ -31,15 +37,6 @@ static const char BRICK_SYMBOL = '#';
 static const char BONUS_BRICK_SYMBOL = '?';
 static const char EMPTY_BRICK_SYMBOL = '-';
 static const char FINISH_SYMBOL = '+';
-
-struct Object {
-	float x, y;
-	float width, height;
-	float vert_speed;
-	bool is_fly;
-	char c_type;
-	float horiz_speed;
-};
 
 char map[MAP_HEIGHT][MAP_WIDTH + 1];
 Object mario;
@@ -70,26 +67,6 @@ void show_map() {
 	for (int j = 0; j < MAP_HEIGHT; j++) {
 		printf("%s", map[j]);
 	}
-}
-
-void set_object_pos(Object *obj, float x_pos, float y_pos) {
-	obj->x = x_pos;
-	obj->y = y_pos;
-}
-
-void init_object(
-	Object *obj,
-	float x_pos, 
-	float y_pos, 
-	float obj_width, 
-	float obj_height, 
-	char in_type) {
-	set_object_pos(obj, x_pos, y_pos);
-	obj->width = obj_width;
-	obj->height = obj_height;
-	obj->vert_speed = 0;
-	obj->c_type = in_type;
-	obj->horiz_speed = GROUND_SPEED;
 }
 
 bool is_collision(Object obj_1, Object obj_2);
