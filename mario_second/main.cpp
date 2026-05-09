@@ -117,7 +117,7 @@ void vert_move_object(Object *obj) {
 				&& (obj->vert_speed < 0) 
 			    && (obj == &mario)) {
 				brick[i].c_type = EMPTY_BRICK_SYMBOL;
-				init_object(get_new_moving(), brick[i].x, brick[i].y - 3, 3, 2, '$');
+				init_object(get_new_moving(), brick[i].x, brick[i].y - 3, 3, 2, MONEY_SYMBOL);
 				moving[moving_length - 1].vert_speed = MOVING_VERT_SPEED;
 			}
 			
@@ -185,10 +185,10 @@ void horizon_move_object(Object *obj) {
 	}
 	
 	if (obj->c_type == ENEMY_SYMBOL) {
-		Object tmp = *obj;
-		vert_move_object(&tmp);
+		Object tmp_obj = *obj;
+		vert_move_object(&tmp_obj);
 		
-		if (tmp.is_fly == true) {
+		if (tmp_obj.is_fly == true) {
 			obj->x -= obj->horiz_speed;
 			obj->horiz_speed = -obj->horiz_speed;
 		}
@@ -260,11 +260,11 @@ Object *get_new_moving() {
 }
 
 void put_score_on_map() {
-	char c[30];
-	sprintf(c, "Score: %d", score);
-	const int len = strlen(c);
+	char score_text[30];
+	sprintf(score_text, "Score: %d", score);
+	const int len = strlen(score_text);
 	for (int i = 0; i < len; i++) {
-		map[SCORE_TEXT_Y][i + SCORE_TEXT_X] = c[i];
+		map[SCORE_TEXT_Y][i + SCORE_TEXT_X] = score_text[i];
 	}
 }
 
@@ -360,11 +360,13 @@ int main() {
 		for (int i = 0; i < moving_length; i++) {
 			vert_move_object(moving + i);
 			horizon_move_object(moving + i);
+			
 			if (moving[i].y > MAP_HEIGHT) {
 				delete_moving(i);
 				i--;
 				continue;
 			}
+			
 			put_object_on_map(moving[i]);
 		}
 		put_object_on_map(mario);
@@ -375,5 +377,6 @@ int main() {
 		
 		Sleep(FRAME_SLEEP_MS);
 	} while (GetKeyState(VK_ESCAPE) >= 0);
+	
 	return 0;
 }
