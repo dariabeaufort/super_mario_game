@@ -7,6 +7,7 @@
 #include "object.hpp"
 #include "game_state.hpp"
 #include "collision.hpp"
+#include "render.hpp"
 
 using jbeau::object::Object;
 using jbeau::object::set_object_pos;
@@ -27,6 +28,12 @@ using jbeau::state::MAP_HEIGHT;
 
 using jbeau::collision::is_collision;
 
+using jbeau::render::is_pos_in_map;
+using jbeau::render::clear_map;
+using jbeau::render::show_map;
+using jbeau::render::set_cur;
+using jbeau::render::put_object_on_map;
+using jbeau::render::put_score_on_map;
 
 static const float GRAVITY = 0.05f;
 static const float JUMP_SPEED = -1.0f;
@@ -53,24 +60,6 @@ static const char BONUS_BRICK_SYMBOL = '?';
 static const char EMPTY_BRICK_SYMBOL = '-';
 static const char FINISH_SYMBOL = '+';
 
-
-void clear_map() {
-	for (int i = 0; i < MAP_WIDTH; i++) {
-		map[0][i] = ' ';
-	}
-	map[0][MAP_WIDTH] = '\0';
-	
-	for (int j = 1; j < MAP_HEIGHT; j++) {
-		sprintf(map[j], map[0]);
-	}
-}
-
-void show_map() {
-	map[MAP_HEIGHT - 1][MAP_WIDTH - 1] = '\0';
-	for (int j = 0; j < MAP_HEIGHT; j++) {
-		printf("%s", map[j]);
-	}
-}
 
 void create_level(int lvl);
 Object *get_new_moving();
@@ -174,32 +163,6 @@ void horizon_move_object(Object *obj) {
 	}
 }
 
-bool is_pos_in_map(int x, int y) {
-	return ((x >= 0) && (x < MAP_WIDTH) && (y >= 0) && (y < MAP_HEIGHT));
-}
-
-void put_object_on_map(Object obj) {
-	int ix = static_cast<int>(round(obj.x));
-	int iy = static_cast<int>(round(obj.y));
-	int i_width = static_cast<int>(round(obj.width));
-	int i_height = static_cast<int>(round(obj.height));
-	
-	for (int i = ix; i < (ix + i_width); i++) {
-		for (int j = iy; j < (iy + i_height); j++) {
-			if (is_pos_in_map(i, j)) {
-				map[j][i] = obj.c_type;
-			}
-		}
-	}
-}
-
-void set_cur(int x, int y) {
-	COORD coord;
-	coord.X = x;
-	coord.Y = y;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
-
 void horizon_move_map(float dx) {
 	mario.x -= dx;
 	for (int i = 0; i < brick_length; i++) {
@@ -229,15 +192,6 @@ Object *get_new_moving() {
 	moving_length++;
 	moving = static_cast<Object*>(realloc(moving, sizeof(*moving) * moving_length));
 	return moving + moving_length - 1;
-}
-
-void put_score_on_map() {
-	char score_text[30];
-	sprintf(score_text, "Score: %d", score);
-	const int len = strlen(score_text);
-	for (int i = 0; i < len; i++) {
-		map[SCORE_TEXT_Y][i + SCORE_TEXT_X] = score_text[i];
-	}
 }
 
 void create_level(int lvl) {

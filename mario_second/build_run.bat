@@ -2,7 +2,7 @@
 chcp 1251 > log
 del log
 
-set CPP_FILES="object.cpp game_state.cpp collision.cpp main.cpp"
+set CPP_FILES="object.cpp game_state.cpp collision.cpp render.cpp main.cpp"
 set EXE=mario.exe
 set CHARSET="-finput-charset=utf-8 -fexec-charset=windows-1251"
 
