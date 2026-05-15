@@ -4,17 +4,29 @@
 #include <math.h>
 #include <windows.h>
 
-#include "game_state.hpp"
 #include "object.hpp"
+#include "game_state.hpp"
+#include "collision.hpp"
 
 using jbeau::object::Object;
 using jbeau::object::set_object_pos;
 using jbeau::object::init_object;
 
-using namespace jbeau::state;
+using jbeau::state::map;
+using jbeau::state::mario;
+using jbeau::state::brick;
+using jbeau::state::brick_length;
+using jbeau::state::moving;
+using jbeau::state::moving_length;
+using jbeau::state::level;
+using jbeau::state::score;
+using jbeau::state::max_lvl;
 
-//static const int MAP_WIDTH = 80;
-//static const int MAP_HEIGHT = 25;
+using jbeau::state::MAP_WIDTH;
+using jbeau::state::MAP_HEIGHT;
+
+using jbeau::collision::is_collision;
+
 
 static const float GRAVITY = 0.05f;
 static const float JUMP_SPEED = -1.0f;
@@ -41,6 +53,7 @@ static const char BONUS_BRICK_SYMBOL = '?';
 static const char EMPTY_BRICK_SYMBOL = '-';
 static const char FINISH_SYMBOL = '+';
 
+
 void clear_map() {
 	for (int i = 0; i < MAP_WIDTH; i++) {
 		map[0][i] = ' ';
@@ -59,7 +72,6 @@ void show_map() {
 	}
 }
 
-bool is_collision(Object obj_1, Object obj_2);
 void create_level(int lvl);
 Object *get_new_moving();
 
@@ -205,13 +217,6 @@ void horizon_move_map(float dx) {
 	for (int i = 0; i < moving_length; i++) {
 		moving[i].x += dx;
 	}
-}
-
-bool is_collision(Object obj_1, Object obj_2) {
-	return ((obj_1.x + obj_1.width) > obj_2.x) 
-		   && (obj_1.x < (obj_2.x + obj_2.width)) 
-		   && ((obj_1.y + obj_1.height) > obj_2.y) 
-		   && (obj_1.y < (obj_2.y + obj_2.height));
 }
 
 Object *get_new_brick() {
