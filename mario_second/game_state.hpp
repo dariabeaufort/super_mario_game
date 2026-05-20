@@ -20,5 +20,10 @@ namespace jbeau {
 		extern int level;
 		extern int score;
 		extern int max_lvl;
+		
+		void delete_moving(int i);
+		jbeau::object::Object *get_new_brick();
+		jbeau::object::Object *get_new_moving();
+		
 	}
 }

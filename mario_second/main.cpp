@@ -35,6 +35,10 @@ using jbeau::render::set_cur;
 using jbeau::render::put_object_on_map;
 using jbeau::render::put_score_on_map;
 
+using jbeau::state::delete_moving;
+using jbeau::state::get_new_brick;
+using jbeau::state::get_new_moving;
+
 static const float GRAVITY = 0.05f;
 static const float JUMP_SPEED = -1.0f;
 static const float GROUND_SPEED = 0.5f;
@@ -62,7 +66,6 @@ static const char FINISH_SYMBOL = '+';
 
 
 void create_level(int lvl);
-Object *get_new_moving();
 
 void player_dead() {
 	system("color 4F");
@@ -106,12 +109,6 @@ void vert_move_object(Object *obj) {
 			break;
 		}
 	}
-}
-
-void delete_moving(int i) {
-	moving_length--;
-	moving[i] = moving[moving_length];
-	moving = (Object*)realloc(moving, sizeof(*moving) * moving_length);
 }
 
 void mario_collision() {
@@ -180,18 +177,6 @@ void horizon_move_map(float dx) {
 	for (int i = 0; i < moving_length; i++) {
 		moving[i].x += dx;
 	}
-}
-
-Object *get_new_brick() {
-	brick_length++;
-	brick = static_cast<Object*>(realloc(brick, sizeof(*brick) * brick_length));
-	return brick + brick_length - 1;
-}
-
-Object *get_new_moving() {
-	moving_length++;
-	moving = static_cast<Object*>(realloc(moving, sizeof(*moving) * moving_length));
-	return moving + moving_length - 1;
 }
 
 void create_level(int lvl) {
