@@ -39,6 +39,8 @@ using jbeau::state::delete_moving;
 using jbeau::state::get_new_brick;
 using jbeau::state::get_new_moving;
 
+using jbeau::collision::mario_collision;
+
 static const float GRAVITY = 0.05f;
 static const float JUMP_SPEED = -1.0f;
 static const float GROUND_SPEED = 0.5f;
@@ -107,33 +109,6 @@ void vert_move_object(Object *obj) {
 				create_level(level);
 			}
 			break;
-		}
-	}
-}
-
-void mario_collision() {
-	for (int i = 0; i < moving_length; i++) {
-		if (is_collision(mario, moving[i])) {
-			if (moving[i].c_type == ENEMY_SYMBOL) {
-				if ((mario.is_fly == true) 
-					&& (mario.vert_speed > 0) 
-					&& (mario.y + mario.height 
-					< moving[i].y + moving[i].height * 0.5)) {
-					score += ENEMY_SCORE;
-					delete_moving(i);
-					i--;
-					continue;
-				} else {
-					player_dead();
-				}
-			}
-			
-			if (moving[i].c_type == MONEY_SYMBOL) {
-				score += MONEY_SCORE;
-				delete_moving(i);
-				i--;
-				continue;
-			}
 		}
 	}
 }

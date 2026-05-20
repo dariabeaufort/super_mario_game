@@ -8,5 +8,7 @@ namespace jbeau {
 			jbeau::object::Object obj_1,
 			jbeau::object::Object obj_2
 		);
+		
+		void mario_collision();
 	}
 }
