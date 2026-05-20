@@ -12,7 +12,9 @@ namespace jbeau {
 		};
 		
 		void set_object_pos(Object *obj, float x_pos, float y_pos);
-		void init_object(Object *obj, float x_pos, float y_pos, 
-						 float obj_width, float obj_height, char in_type);
+		void init_object(Object *obj,
+						 float x_pos, float y_pos, 
+						 float obj_width, float obj_height, 
+						 char in_type);
 	}
 }

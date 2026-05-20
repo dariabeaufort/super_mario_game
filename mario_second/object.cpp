@@ -1,5 +1,6 @@
-#include "object.hpp"
 #include "game_state.hpp"
+
+#include "object.hpp"
 
 void jbeau::object::set_object_pos(jbeau::object::Object *obj,
 									float x_pos, float y_pos) {
@@ -7,13 +8,10 @@ void jbeau::object::set_object_pos(jbeau::object::Object *obj,
 	obj->y = y_pos;
 }
 
-void jbeau::object::init_object(
-	jbeau::object::Object *obj,
-	float x_pos, 
-	float y_pos, 
-	float obj_width, 
-	float obj_height, 
-	char in_type) {
+void jbeau::object::init_object(jbeau::object::Object *obj, 
+								float x_pos, float y_pos, 
+								float obj_width, float obj_height, 
+								char in_type) {
 	set_object_pos(obj, x_pos, y_pos);
 	obj->width = obj_width;
 	obj->height = obj_height;

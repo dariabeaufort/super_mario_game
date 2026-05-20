@@ -5,8 +5,8 @@
 namespace jbeau {
 	namespace collision {
 		bool is_collision(
-			jbeau::object::Object obj_1,
-			jbeau::object::Object obj_2
+			const jbeau::object::Object &obj_1,
+			const jbeau::object::Object &obj_2
 		);
 		
 		void mario_collision();
