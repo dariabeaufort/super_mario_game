@@ -1,6 +1,7 @@
 #include "collision.hpp"
 
 #include "game_state.hpp"
+#include "movement.hpp"
 
 using jbeau::state::mario;
 using jbeau::state::moving;
@@ -9,6 +10,8 @@ using jbeau::state::score;
 
 using jbeau::state::delete_moving;
 
+using jbeau::movement::player_dead;
+
 // temporary dependencies (to be refactored later)
 static const int ENEMY_SCORE = 50;
 static const int MONEY_SCORE = 100;
@@ -16,7 +19,7 @@ static const int MONEY_SCORE = 100;
 static const char ENEMY_SYMBOL = 'o';
 static const char MONEY_SYMBOL = '$';
 
-void player_dead();
+//void player_dead();
 
 bool jbeau::collision::is_collision(
 	jbeau::object::Object obj_1,

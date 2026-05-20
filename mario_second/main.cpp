@@ -8,6 +8,8 @@
 #include "game_state.hpp"
 #include "collision.hpp"
 #include "render.hpp"
+#include "movement.hpp"
+#include "level.hpp"
 
 using jbeau::object::Object;
 using jbeau::object::set_object_pos;
@@ -41,6 +43,13 @@ using jbeau::state::get_new_moving;
 
 using jbeau::collision::mario_collision;
 
+using jbeau::level::create_level;
+
+using jbeau::movement::horizon_move_map;
+using jbeau::movement::horizon_move_object;
+using jbeau::movement::player_dead;
+using jbeau::movement::vert_move_object;
+
 static const float GRAVITY = 0.05f;
 static const float JUMP_SPEED = -1.0f;
 static const float GROUND_SPEED = 0.5f;
@@ -66,156 +75,6 @@ static const char BONUS_BRICK_SYMBOL = '?';
 static const char EMPTY_BRICK_SYMBOL = '-';
 static const char FINISH_SYMBOL = '+';
 
-
-void create_level(int lvl);
-
-void player_dead() {
-	system("color 4F");
-	Sleep(DEAD_SCREEN_TIME_MS);
-	create_level(level);
-}
-
-void vert_move_object(Object *obj) {
-	obj->is_fly = true;
-	obj->vert_speed += GRAVITY;
-	set_object_pos(obj, obj->x, obj->y + obj->vert_speed);
-	
-	for (int i = 0; i < brick_length; i++) {
-		if (is_collision(*obj, brick[i])) {
-			if (obj->vert_speed > 0) {
-				obj->is_fly = false;
-			}
-			
-			if ((brick[i].c_type == BONUS_BRICK_SYMBOL) 
-				&& (obj->vert_speed < 0) 
-			    && (obj == &mario)) {
-				brick[i].c_type = EMPTY_BRICK_SYMBOL;
-				init_object(get_new_moving(), brick[i].x, brick[i].y - 3, 3, 2, MONEY_SYMBOL);
-				moving[moving_length - 1].vert_speed = MOVING_VERT_SPEED;
-			}
-			
-			obj->y -= obj->vert_speed;
-			obj->vert_speed = 0;
-
-			if (brick[i].c_type == FINISH_SYMBOL) {
-				level++;
-				
-				if (level > max_lvl) {
-					level = 1;
-				}
-				
-				system("color 2F");
-				Sleep(LVL_SWITCH_TIME_MS);
-				create_level(level);
-			}
-			break;
-		}
-	}
-}
-
-void horizon_move_object(Object *obj) {
-	obj->x += obj->horiz_speed;
-	
-	for (int i = 0; i < brick_length; i++) { 
-		if (is_collision(*obj, brick[i])) {
-			obj->x -= obj->horiz_speed;
-			obj->horiz_speed = -obj->horiz_speed;
-			return;
-		}
-	}
-	
-	if (obj->c_type == ENEMY_SYMBOL) {
-		Object tmp_obj = *obj;
-		vert_move_object(&tmp_obj);
-		
-		if (tmp_obj.is_fly == true) {
-			obj->x -= obj->horiz_speed;
-			obj->horiz_speed = -obj->horiz_speed;
-		}
-	}
-}
-
-void horizon_move_map(float dx) {
-	mario.x -= dx;
-	for (int i = 0; i < brick_length; i++) {
-		if (is_collision(mario, brick[i])) {
-			mario.x += dx;
-			return;
-		}
-	}
-	mario.x += dx;
-	
-	for (int i = 0; i < brick_length; i++) {
-		brick[i].x += dx;
-	}
-	
-	for (int i = 0; i < moving_length; i++) {
-		moving[i].x += dx;
-	}
-}
-
-void create_level(int lvl) {
-	system("color DF");
-	
-	brick_length = 0;
-	brick = static_cast<Object*>(realloc(brick, 0));
-	moving_length = 0;
-	moving = static_cast<Object*>(realloc(moving, 0));
-	
-	init_object(&mario, 39, 10, 3, 3, PLAYER_SYMBOL);
-	score = 0;
-	
-	if (lvl == 1) {
-		init_object(get_new_brick(), 20, 20, 40, 5, BRICK_SYMBOL);
-		init_object(get_new_brick(), 60, 15, 40, 10, BRICK_SYMBOL);
-		init_object(get_new_brick(), 100, 20, 20, 5, BRICK_SYMBOL);
-		init_object(get_new_brick(), 120, 15, 10, 10, BRICK_SYMBOL);
-		init_object(get_new_brick(), 150, 20, 40, 5, BRICK_SYMBOL);
-		init_object(get_new_brick(), 210, 15, 10, 10, FINISH_SYMBOL);
-		
-		init_object(get_new_brick(), 30, 10, 5, 3, BONUS_BRICK_SYMBOL);
-		init_object(get_new_brick(), 50, 10, 5, 3, BONUS_BRICK_SYMBOL);
-		init_object(get_new_brick(), 60, 5, 10, 3, EMPTY_BRICK_SYMBOL);
-		init_object(get_new_brick(), 70, 5, 5, 3, BONUS_BRICK_SYMBOL);
-		init_object(get_new_brick(), 75, 5, 5, 3, EMPTY_BRICK_SYMBOL);
-		init_object(get_new_brick(), 80, 5, 5, 3, BONUS_BRICK_SYMBOL);
-		init_object(get_new_brick(), 85, 5, 10, 3, EMPTY_BRICK_SYMBOL);
-		
-		init_object(get_new_moving(), 25, 10, 3, 2, ENEMY_SYMBOL);
-		init_object(get_new_moving(), 80, 10, 3, 2, ENEMY_SYMBOL);
-	}
-	
-	if (lvl == 2) {
-		init_object(get_new_brick(), 20, 20, 40, 5, BRICK_SYMBOL);
-		init_object(get_new_brick(), 60, 15, 10, 10, BRICK_SYMBOL);
-		init_object(get_new_brick(), 80, 20, 20, 5, BRICK_SYMBOL);
-		init_object(get_new_brick(), 120, 15, 10, 10, BRICK_SYMBOL);
-		init_object(get_new_brick(), 150, 20, 40, 5, BRICK_SYMBOL);
-		init_object(get_new_brick(), 210, 15, 10, 10, FINISH_SYMBOL);
-
-		init_object(get_new_moving(), 25, 10, 3, 2, ENEMY_SYMBOL);
-		init_object(get_new_moving(), 80, 10, 3, 2, ENEMY_SYMBOL);
-		init_object(get_new_moving(), 65, 10, 3, 2, ENEMY_SYMBOL);
-		init_object(get_new_moving(), 120, 10, 3, 2, ENEMY_SYMBOL);
-		init_object(get_new_moving(), 160, 10, 3, 2, ENEMY_SYMBOL);
-		init_object(get_new_moving(), 175, 10, 3, 2, ENEMY_SYMBOL);
-	}
-	
-	if (lvl == 3) {
-		init_object(get_new_brick(), 20, 20, 40, 5, BRICK_SYMBOL);
-		init_object(get_new_brick(), 80, 20, 15, 5, BRICK_SYMBOL);
-		init_object(get_new_brick(), 120, 15, 15, 10, BRICK_SYMBOL);
-		init_object(get_new_brick(), 160, 10, 15, 15, FINISH_SYMBOL);
-
-		init_object(get_new_moving(), 25, 10, 3, 2, ENEMY_SYMBOL);
-		init_object(get_new_moving(), 50, 10, 3, 2, ENEMY_SYMBOL);
-		init_object(get_new_moving(), 80, 10, 3, 2, ENEMY_SYMBOL);
-		init_object(get_new_moving(), 90, 10, 3, 2, ENEMY_SYMBOL);
-		init_object(get_new_moving(), 120, 10, 3, 2, ENEMY_SYMBOL);
-		init_object(get_new_moving(), 130, 10, 3, 2, ENEMY_SYMBOL);
-	}
-	max_lvl = 3;
-}
 
 int main() {
 	create_level(level);
