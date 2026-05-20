@@ -1,7 +1,5 @@
 #include "object.hpp"
-
-// temporary dependencies (to be refactored later)
-static const float GROUND_SPEED = 0.5f;
+#include "game_state.hpp"
 
 void jbeau::object::set_object_pos(jbeau::object::Object *obj,
 									float x_pos, float y_pos) {
@@ -21,5 +19,5 @@ void jbeau::object::init_object(
 	obj->height = obj_height;
 	obj->vert_speed = 0;
 	obj->c_type = in_type;
-	obj->horiz_speed = GROUND_SPEED;
+	obj->horiz_speed = jbeau::state::GROUND_SPEED;
 }

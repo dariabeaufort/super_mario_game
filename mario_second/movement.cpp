@@ -32,28 +32,16 @@ using jbeau::state::moving_length;
 
 using jbeau::state::get_new_moving;
 
-// temporary dependencies (to be refactored later)
-static const float GRAVITY = 0.05f;
-static const float MOVING_VERT_SPEED = -0.3f;
-
-static const int DEAD_SCREEN_TIME_MS = 500;
-static const int LVL_SWITCH_TIME_MS = 500;
-
-static const char BONUS_BRICK_SYMBOL = '?';
-static const char EMPTY_BRICK_SYMBOL = '-';
-static const char ENEMY_SYMBOL = 'o';
-static const char FINISH_SYMBOL = '+';
-static const char MONEY_SYMBOL = '$';
 
 void jbeau::movement::player_dead() {
 	system("color 4F");
-	Sleep(DEAD_SCREEN_TIME_MS);
+	Sleep(jbeau::state::DEAD_SCREEN_TIME_MS);
 	create_level(jbeau::state::level);
 }
 
 void jbeau::movement::vert_move_object(Object *obj) {
 	obj->is_fly = true;
-	obj->vert_speed += GRAVITY;
+	obj->vert_speed += jbeau::state::GRAVITY;
 	set_object_pos(obj, obj->x, obj->y + obj->vert_speed);
 	
 	for (int i = 0; i < brick_length; i++) {
@@ -62,18 +50,18 @@ void jbeau::movement::vert_move_object(Object *obj) {
 				obj->is_fly = false;
 			}
 			
-			if ((brick[i].c_type == BONUS_BRICK_SYMBOL) 
+			if ((brick[i].c_type == jbeau::state::BONUS_BRICK_SYMBOL) 
 				&& (obj->vert_speed < 0) 
 			    && (obj == &mario)) {
-				brick[i].c_type = EMPTY_BRICK_SYMBOL;
-				init_object(get_new_moving(), brick[i].x, brick[i].y - 3, 3, 2, MONEY_SYMBOL);
-				moving[moving_length - 1].vert_speed = MOVING_VERT_SPEED;
+				brick[i].c_type = jbeau::state::EMPTY_BRICK_SYMBOL;
+				init_object(get_new_moving(), brick[i].x, brick[i].y - 3, 3, 2, jbeau::state::MONEY_SYMBOL);
+				moving[moving_length - 1].vert_speed = jbeau::state::MOVING_VERT_SPEED;
 			}
 			
 			obj->y -= obj->vert_speed;
 			obj->vert_speed = 0;
 
-			if (brick[i].c_type == FINISH_SYMBOL) {
+			if (brick[i].c_type == jbeau::state::FINISH_SYMBOL) {
 				jbeau::state::level++;
 				
 				if (jbeau::state::level > max_lvl) {
@@ -81,7 +69,7 @@ void jbeau::movement::vert_move_object(Object *obj) {
 				}
 				
 				system("color 2F");
-				Sleep(LVL_SWITCH_TIME_MS);
+				Sleep(jbeau::state::LVL_SWITCH_TIME_MS);
 				create_level(jbeau::state::level);
 			}
 			break;
@@ -100,7 +88,7 @@ void jbeau::movement::horizon_move_object(Object *obj) {
 		}
 	}
 	
-	if (obj->c_type == ENEMY_SYMBOL) {
+	if (obj->c_type == jbeau::state::ENEMY_SYMBOL) {
 		Object tmp_obj = *obj;
 		jbeau::movement::vert_move_object(&tmp_obj);
 		

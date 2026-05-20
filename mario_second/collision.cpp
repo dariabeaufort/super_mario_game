@@ -12,14 +12,6 @@ using jbeau::state::delete_moving;
 
 using jbeau::movement::player_dead;
 
-// temporary dependencies (to be refactored later)
-static const int ENEMY_SCORE = 50;
-static const int MONEY_SCORE = 100;
-
-static const char ENEMY_SYMBOL = 'o';
-static const char MONEY_SYMBOL = '$';
-
-//void player_dead();
 
 bool jbeau::collision::is_collision(
 	jbeau::object::Object obj_1,
@@ -34,12 +26,12 @@ bool jbeau::collision::is_collision(
 void jbeau::collision::mario_collision() {
 	for (int i = 0; i < moving_length; i++) {
 		if (jbeau::collision::is_collision(mario, moving[i])) {
-			if (moving[i].c_type == ENEMY_SYMBOL) {
+			if (moving[i].c_type == jbeau::state::ENEMY_SYMBOL) {
 				if ((mario.is_fly == true) 
 					&& (mario.vert_speed > 0) 
 					&& (mario.y + mario.height 
 					< moving[i].y + moving[i].height * 0.5)) {
-					score += ENEMY_SCORE;
+					score += jbeau::state::ENEMY_SCORE;
 					delete_moving(i);
 					i--;
 					continue;
@@ -48,8 +40,8 @@ void jbeau::collision::mario_collision() {
 				}
 			}
 			
-			if (moving[i].c_type == MONEY_SYMBOL) {
-				score += MONEY_SCORE;
+			if (moving[i].c_type == jbeau::state::MONEY_SYMBOL) {
+				score += jbeau::state::MONEY_SCORE;
 				delete_moving(i);
 				i--;
 				continue;

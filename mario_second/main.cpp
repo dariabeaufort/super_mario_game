@@ -50,31 +50,6 @@ using jbeau::movement::horizon_move_object;
 using jbeau::movement::player_dead;
 using jbeau::movement::vert_move_object;
 
-static const float GRAVITY = 0.05f;
-static const float JUMP_SPEED = -1.0f;
-static const float GROUND_SPEED = 0.5f;
-static const float MOVING_VERT_SPEED = -0.3f;
-
-static const int DEAD_SCREEN_TIME_MS = 500;
-static const int LVL_SWITCH_TIME_MS = 500;
-static const int FRAME_SLEEP_MS = 10;
-
-static const int SCORE_TEXT_X = 5;
-static const int SCORE_TEXT_Y = 1;
-
-static const int ENEMY_SCORE = 50;
-static const int MONEY_SCORE = 100;
-
-static const char PLAYER_SYMBOL = '@';
-
-static const char ENEMY_SYMBOL = 'o';
-static const char MONEY_SYMBOL = '$';
-
-static const char BRICK_SYMBOL = '#';
-static const char BONUS_BRICK_SYMBOL = '?';
-static const char EMPTY_BRICK_SYMBOL = '-';
-static const char FINISH_SYMBOL = '+';
-
 
 int main() {
 	create_level(level);
@@ -83,7 +58,7 @@ int main() {
 		clear_map();
 		
 		if ((mario.is_fly == false) && (GetKeyState(VK_SPACE) < 0)) {
-			mario.vert_speed = JUMP_SPEED;
+			mario.vert_speed = jbeau::state::JUMP_SPEED;
 		}
 		if (GetKeyState('A') < 0) {
 			horizon_move_map(1);
@@ -92,7 +67,7 @@ int main() {
 			horizon_move_map(-1);
 		}
 		
-		if (mario.y > MAP_HEIGHT) {
+		if (mario.y > jbeau::state::MAP_HEIGHT) {
 			player_dead();
 		}
 		
@@ -106,7 +81,7 @@ int main() {
 			vert_move_object(moving + i);
 			horizon_move_object(moving + i);
 			
-			if (moving[i].y > MAP_HEIGHT) {
+			if (moving[i].y > jbeau::state::MAP_HEIGHT) {
 				delete_moving(i);
 				i--;
 				continue;
@@ -120,7 +95,7 @@ int main() {
 		set_cur(0, 0);
 		show_map();
 		
-		Sleep(FRAME_SLEEP_MS);
+		Sleep(jbeau::state::FRAME_SLEEP_MS);
 	} while (GetKeyState(VK_ESCAPE) >= 0);
 	
 	return 0;
