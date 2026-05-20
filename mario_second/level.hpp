@@ -2,6 +2,6 @@
 
 namespace jbeau {
 	namespace level {
-		void create_level(int lvl);
+		void create_level(jbeau::state::GameState &state, int lvl);
 	}
 }

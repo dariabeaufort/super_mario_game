@@ -7,56 +7,56 @@
 #include "object.hpp"
 #include "render.hpp"
 
-using jbeau::state::mario;
-using jbeau::state::brick;
-using jbeau::state::moving;
-
 int main() {
-	jbeau::level::create_level(jbeau::state::level);
+	jbeau::state::GameState state;
+	jbeau::level::create_level(state, state.level);
 	
 	do {
-		jbeau::render::clear_map();
+		jbeau::render::clear_map(state);
 		
-		if ((mario.is_fly == false) && (GetKeyState(VK_SPACE) < 0)) {
-			mario.vert_speed = jbeau::state::JUMP_SPEED;
+		if ((state.mario.is_fly == false) && (GetKeyState(VK_SPACE) < 0)) {
+			state.mario.vert_speed = jbeau::state::JUMP_SPEED;
 		}
 		if (GetKeyState('A') < 0) {
-			jbeau::movement::horizon_move_map(1);
+			jbeau::movement::horizon_move_map(state, 1);
 		}
 		if (GetKeyState('D') < 0) {
-			jbeau::movement::horizon_move_map(-1);
+			jbeau::movement::horizon_move_map(state, -1);
 		}
 		
-		if (mario.y > jbeau::state::MAP_HEIGHT) {
-			jbeau::movement::player_dead();
+		if (state.mario.y > jbeau::state::MAP_HEIGHT) {
+			jbeau::movement::player_dead(state);
 		}
 		
-		jbeau::movement::vert_move_object(&mario);
-		jbeau::collision::mario_collision();
+		jbeau::movement::vert_move_object(state, &state.mario);
+		jbeau::collision::mario_collision(state);
 		
-		for (int i = 0; i < jbeau::state::brick_length; i++) {
-			jbeau::render::put_object_on_map(brick[i]);
+		for (int i = 0; i < state.brick_length; i++) {
+			jbeau::render::put_object_on_map(state, state.brick[i]);
 		}
-		for (int i = 0; i < jbeau::state::moving_length; i++) {
-			jbeau::movement::vert_move_object(moving + i);
-			jbeau::movement::horizon_move_object(moving + i);
+		for (int i = 0; i < state.moving_length; i++) {
+			jbeau::movement::vert_move_object(state, state.moving + i);
+			jbeau::movement::horizon_move_object(state, state.moving + i);
 			
-			if (moving[i].y > jbeau::state::MAP_HEIGHT) {
-				jbeau::state::delete_moving(i);
+			if (state.moving[i].y > jbeau::state::MAP_HEIGHT) {
+				jbeau::state::delete_moving(state, i);
 				i--;
 				continue;
 			}
 			
-			jbeau::render::put_object_on_map(moving[i]);
+			jbeau::render::put_object_on_map(state, state.moving[i]);
 		}
-		jbeau::render::put_object_on_map(mario);
-		jbeau::render::put_score_on_map();
+		jbeau::render::put_object_on_map(state, state.mario);
+		jbeau::render::put_score_on_map(state);
 		
 		jbeau::render::set_cur(0, 0);
-		jbeau::render::show_map();
+		jbeau::render::show_map(state);
 		
 		Sleep(jbeau::state::FRAME_SLEEP_MS);
 	} while (GetKeyState(VK_ESCAPE) >= 0);
+	
+	free(state.brick);
+	free(state.moving);
 	
 	return 0;
 }

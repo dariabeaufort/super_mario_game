@@ -32,22 +32,23 @@ namespace jbeau {
 		static const char EMPTY_BRICK_SYMBOL = '-';
 		static const char FINISH_SYMBOL = '+';
 		
+		struct GameState {
+			char map[MAP_HEIGHT][MAP_WIDTH + 1];
+			jbeau::object::Object mario;
+
+			jbeau::object::Object *brick = nullptr;
+			int brick_length = 0;
+
+			jbeau::object::Object *moving = nullptr;
+			int moving_length = 0;
+
+			int level = 1;
+			int score = 0;
+			int max_lvl = 3;
+		};
 		
-		extern char map[MAP_HEIGHT][MAP_WIDTH + 1];
-		extern jbeau::object::Object mario;
-
-		extern jbeau::object::Object *brick;
-		extern int brick_length;
-
-		extern jbeau::object::Object *moving;
-		extern int moving_length;
-
-		extern int level;
-		extern int score;
-		extern int max_lvl;
-		
-		void delete_moving(int i);
-		jbeau::object::Object *get_new_brick();
-		jbeau::object::Object *get_new_moving();
+		void delete_moving(GameState &state, int i);
+		jbeau::object::Object *get_new_brick(GameState &state);
+		jbeau::object::Object *get_new_moving(GameState &state);
 	}
 }
