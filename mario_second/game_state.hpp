@@ -49,6 +49,5 @@ namespace jbeau {
 		void delete_moving(int i);
 		jbeau::object::Object *get_new_brick();
 		jbeau::object::Object *get_new_moving();
-		
 	}
 }
