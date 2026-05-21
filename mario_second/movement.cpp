@@ -15,7 +15,8 @@ void jbeau::movement::player_dead(jbeau::state::GameState &state) {
 	jbeau::level::create_level(state, state.level);
 }
 
-void jbeau::movement::vert_move_object(jbeau::state::GameState &state, jbeau::object::Object *obj) {
+void jbeau::movement::vert_move_object(jbeau::state::GameState &state, 
+									   jbeau::object::Object *obj) {
 	obj->is_fly = true;
 	obj->vert_speed += jbeau::state::GRAVITY;
 	jbeau::object::set_object_pos(obj, obj->x, obj->y + obj->vert_speed);
@@ -30,8 +31,9 @@ void jbeau::movement::vert_move_object(jbeau::state::GameState &state, jbeau::ob
 				&& (obj->vert_speed < 0) 
 			    && (obj == &state.mario)) {
 				state.brick[i].c_type = jbeau::state::EMPTY_BRICK_SYMBOL;
-				jbeau::object::init_object(jbeau::state::get_new_moving(state), 
-										   state.brick[i].x, state.brick[i].y - 3, 3, 2, 
+				jbeau::object::init_object(jbeau::state::get_new_moving(state),
+										   state.brick[i].x, 
+										   state.brick[i].y - 3, 3, 2, 
 										   jbeau::state::MONEY_SYMBOL);
 				state.moving[state.moving_length - 1].vert_speed = jbeau::state::MOVING_VERT_SPEED;
 			}
@@ -55,7 +57,8 @@ void jbeau::movement::vert_move_object(jbeau::state::GameState &state, jbeau::ob
 	}
 }
 
-void jbeau::movement::horizon_move_object(jbeau::state::GameState &state, jbeau::object::Object *obj) {
+void jbeau::movement::horizon_move_object(jbeau::state::GameState &state, 
+										  jbeau::object::Object *obj) {
 	obj->x += obj->horiz_speed;
 	
 	for (int i = 0; i < state.brick_length; i++) { 

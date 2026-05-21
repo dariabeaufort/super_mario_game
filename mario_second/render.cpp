@@ -21,14 +21,14 @@ void jbeau::render::clear_map(jbeau::state::GameState &state) {
 	state.map[0][jbeau::state::MAP_WIDTH] = '\0';
 	
 	for (int j = 1; j < jbeau::state::MAP_HEIGHT; j++) {
-		sprintf(state.map[j], state.map[0]);
+		std::sprintf(state.map[j], state.map[0]);
 	}
 }
 
 void jbeau::render::show_map(jbeau::state::GameState &state) {
 	state.map[jbeau::state::MAP_HEIGHT - 1][jbeau::state::MAP_WIDTH - 1] = '\0';
 	for (int j = 0; j < jbeau::state::MAP_HEIGHT; j++) {
-		printf("%s", state.map[j]);
+		std::printf("%s", state.map[j]);
 	}
 }
 
@@ -57,9 +57,9 @@ void jbeau::render::set_cur(int x, int y) {
 
 void jbeau::render::put_score_on_map(jbeau::state::GameState &state) {
 	char score_text[30];
-	sprintf(score_text, "Score: %d", state.score);
+	std::sprintf(score_text, "Score: %d", state.score);
 	const int len = std::strlen(score_text);
 	for (int i = 0; i < len; i++) {
-		state.map[jbeau::state::SCORE_TEXT_Y][i + jbeau::state::SCORE_TEXT_X] = score_text[i];
+		state.map[jbeau::state::SCORE_TEXT_Y][i + jbeau::state::SCORE_TEXT_X] =	score_text[i];
 	}
 }
