@@ -19,7 +19,7 @@ void jbeau::movement::vert_move_object(jbeau::state::GameState &state,
 									   jbeau::object::Object *obj) {
 	obj->is_fly = true;
 	obj->vert_speed += jbeau::state::GRAVITY;
-	jbeau::object::set_object_pos(obj, obj->x, obj->y + obj->vert_speed);
+	obj->set_pos(obj->x, obj->y + obj->vert_speed);
 	
 	for (int i = 0; i < state.brick_length; i++) {
 		if (jbeau::collision::is_collision(*obj, state.brick[i])) {
@@ -31,10 +31,9 @@ void jbeau::movement::vert_move_object(jbeau::state::GameState &state,
 				&& (obj->vert_speed < 0) 
 			    && (obj == &state.mario)) {
 				state.brick[i].c_type = jbeau::state::EMPTY_BRICK_SYMBOL;
-				jbeau::object::init_object(jbeau::state::get_new_moving(state),
-										   state.brick[i].x, 
-										   state.brick[i].y - 3, 3, 2, 
-										   jbeau::state::MONEY_SYMBOL);
+				jbeau::state::get_new_moving(state)->init(state.brick[i].x, 
+														  state.brick[i].y - 3, 3, 2, 
+								                          jbeau::state::MONEY_SYMBOL);
 				state.moving[state.moving_length - 1].vert_speed = jbeau::state::MOVING_VERT_SPEED;
 			}
 			

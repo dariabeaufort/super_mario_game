@@ -2,19 +2,19 @@
 
 namespace jbeau {
 	namespace object {
-		struct Object {
+		class Object {
+		public:
 			float x, y;
 			float width, height;
 			float vert_speed;
 			bool is_fly;
 			char c_type;
 			float horiz_speed;
+			
+		void set_pos(float x_pos, float y_pos);
+		void init(float x_pos, float y_pos, 
+				  float obj_width, float obj_height, 
+				  char in_type);
 		};
-		
-		void set_object_pos(Object *obj, float x_pos, float y_pos);
-		void init_object(Object *obj,
-						 float x_pos, float y_pos, 
-						 float obj_width, float obj_height, 
-						 char in_type);
 	}
 }
