@@ -28,7 +28,7 @@ int main() {
 			jbeau::movement::player_dead(state);
 		}
 		
-		jbeau::movement::vert_move_object(state, &state.mario);
+		state.mario.vert_movement(state);
 		jbeau::collision::mario_collision(state);
 		
 		for (int i = 0; i < state.brick_length; i++) {
