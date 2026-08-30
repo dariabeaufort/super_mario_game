@@ -15,7 +15,7 @@ int main() {
 		jbeau::render::clear_map(state);
 		
 		if ((state.mario.is_fly == false) && (GetKeyState(VK_SPACE) < 0)) {
-			state.mario.vert_speed = jbeau::state::JUMP_SPEED;
+			state.mario.jump();
 		}
 		if (GetKeyState('A') < 0) {
 			jbeau::movement::horizon_move_map(state, 1);

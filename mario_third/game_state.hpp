@@ -1,6 +1,7 @@
 #pragma once
 
 #include "object.hpp"
+#include "mario.hpp"
 
 namespace jbeau {
 	namespace state {
@@ -34,7 +35,7 @@ namespace jbeau {
 		
 		struct GameState {
 			char map[MAP_HEIGHT][MAP_WIDTH + 1];
-			jbeau::object::Object mario;
+			jbeau::mario::Mario mario;
 
 			jbeau::object::Object *brick = nullptr;
 			int brick_length = 0;

@@ -16,7 +16,7 @@ void jbeau::level::create_level(jbeau::state::GameState &state, int lvl) {
 	state.moving_length = 0;
 	state.moving = static_cast<jbeau::object::Object*>(realloc(state.moving, 0));
 	
-	state.mario.init(39, 10, 3, 3, jbeau::state::PLAYER_SYMBOL);
+	state.mario.spawn();
 	state.score = 0;
 	
 	switch(lvl) {
