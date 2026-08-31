@@ -1,6 +1,7 @@
 #pragma once
 
 #include "brick.hpp"
+#include "enemy.hpp"
 #include "object.hpp"
 
 namespace jbeau {
@@ -19,6 +20,9 @@ namespace jbeau {
 			void death();
 			
 			void vert_movement(jbeau::state::GameState& state);
+			
+			bool enemy_collision(const jbeau::enemy::Enemy& enemy) const;
+			bool up_enemy_collision(const jbeau::enemy::Enemy& enemy) const;
 			
 			bool get_alive() const;
 			bool get_reached_finish() const;

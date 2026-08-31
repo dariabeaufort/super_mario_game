@@ -44,23 +44,32 @@ int main() {
 			continue;
 		}
 		
-		jbeau::collision::mario_collision(state);
-		
 		for (int i = 0; i < state.brick_length; i++) {
 			jbeau::render::put_object_on_map(state, state.brick[i]);
 		}
-		for (int i = 0; i < state.moving_length; i++) {
-			jbeau::movement::vert_move_object(state, state.moving + i);
-			jbeau::movement::horizon_move_object(state, state.moving + i);
+		
+		for (int i = 0; i < state.enemy_length; i++) {
 			
-			if (state.moving[i].y > jbeau::state::MAP_HEIGHT) {
-				jbeau::state::delete_moving(state, i);
+			state.enemy[i].vert_movement(state.brick, state.brick_length);
+			state.enemy[i].horizon_movement(state.brick, state.brick_length);
+			
+			jbeau::render::put_object_on_map(state, state.enemy[i]);
+		}
+		
+		for (int i = 0; i < state.enemy_length; i++) {
+			if (state.mario.up_enemy_collision(state.enemy[i])) {
+				state.score += jbeau::state::ENEMY_SCORE;
+				jbeau::state::delete_enemy(state, i);
 				i--;
 				continue;
 			}
-			
-			jbeau::render::put_object_on_map(state, state.moving[i]);
+
+			if (state.mario.enemy_collision(state.enemy[i])) {
+				state.mario.death();
+				break;
+			}
 		}
+
 		jbeau::render::put_object_on_map(state, state.mario);
 		jbeau::render::put_score_on_map(state);
 		
@@ -71,7 +80,8 @@ int main() {
 	} while (GetKeyState(VK_ESCAPE) >= 0);
 	
 	delete[] state.brick;
-	free(state.moving);
+	delete[] state.enemy;
+	delete[] state.money;
 	
 	return 0;
 }

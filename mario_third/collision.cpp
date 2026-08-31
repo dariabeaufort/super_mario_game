@@ -13,6 +13,7 @@ bool jbeau::collision::is_collision(
 		   && (obj_1.y < (obj_2.y + obj_2.height));
 }
 
+/*
 void jbeau::collision::mario_collision(jbeau::state::GameState &state) {
 	for (int i = 0; i < state.moving_length; i++) {
 		if (jbeau::collision::is_collision(state.mario, state.moving[i])) {
@@ -39,3 +40,4 @@ void jbeau::collision::mario_collision(jbeau::state::GameState &state) {
 		}
 	}
 }
+*/

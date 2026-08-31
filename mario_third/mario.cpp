@@ -53,16 +53,13 @@ void jbeau::mario::Mario::vert_movement(
             if ((state.brick[i].get_type() == jbeau::brick::BrickType::BONUS)
                 && (vert_speed < 0)) {
 
-                state.brick[i].hit();
+				if (!state.brick[i].get_was_hit()) {
+					state.brick[i].hit();
 
-				jbeau::state::get_new_moving(state)->init(
-					state.brick[i].x, state.brick[i].y - 3, 3, 2,
-					jbeau::state::MONEY_SYMBOL
-				);
-
-                state.moving[state.moving_length - 1].vert_speed =
-                    jbeau::state::MOVING_VERT_SPEED;
-            }
+					jbeau::state::get_new_money(state)->spawn(state.brick[i].x,
+															  state.brick[i].y);
+				}
+			}
 
             y -= vert_speed;
             vert_speed = 0;
@@ -74,6 +71,19 @@ void jbeau::mario::Mario::vert_movement(
             break;
         }
     }
+}
+
+bool jbeau::mario::Mario::enemy_collision(const jbeau::enemy::Enemy& enemy) const {
+    return jbeau::collision::is_collision(*this, enemy);
+}
+
+bool jbeau::mario::Mario::up_enemy_collision(const jbeau::enemy::Enemy& enemy) const {
+    if (!jbeau::collision::is_collision(*this, enemy)) {
+        return false;
+    }
+
+    return is_fly && vert_speed > 0
+		   && y + height < enemy.y + enemy.height * 0.5f;
 }
 
 bool jbeau::mario::Mario::get_alive() const {

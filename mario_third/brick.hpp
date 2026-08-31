@@ -27,6 +27,7 @@ namespace jbeau {
 				
 				BrickType get_type() const;
 				bool is_finish() const;
+				bool get_was_hit() const;
 		};
 	}
 }

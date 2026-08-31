@@ -68,3 +68,7 @@ jbeau::brick::BrickType jbeau::brick::Brick::get_type() const {
 bool jbeau::brick::Brick::is_finish() const {
     return brick_type == BrickType::FINISH;
 }
+
+bool jbeau::brick::Brick::get_was_hit() const {
+    return was_hit;
+}

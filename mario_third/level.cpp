@@ -13,9 +13,14 @@ void jbeau::level::create_level(jbeau::state::GameState &state, int lvl) {
 	delete[] state.brick;
 	state.brick = nullptr;
 	state.brick_length = 0;
+	
+	delete[] state.enemy;
+	state.enemy = nullptr;
+	state.enemy_length = 0;
 
-	state.moving_length = 0;
-	state.moving = static_cast<jbeau::object::Object*>(realloc(state.moving, 0));
+	delete[] state.money;
+	state.money = nullptr;
+	state.money_length = 0;
 	
 	state.mario.spawn();
 	state.score = 0;
@@ -37,8 +42,8 @@ void jbeau::level::create_level(jbeau::state::GameState &state, int lvl) {
 		jbeau::state::get_new_brick(state)->spawn(80, 5, 5, 3, jbeau::brick::BrickType::BONUS);
 		jbeau::state::get_new_brick(state)->spawn(85, 5, 10, 3, jbeau::brick::BrickType::EMPTY);
 		
-		get_new_moving(state)->init(25, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
-		get_new_moving(state)->init(80, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
+		jbeau::state::get_new_enemy(state)->spawn(25, 10);
+		jbeau::state::get_new_enemy(state)->spawn(80, 10);
 		break;
 		
 		case 2:
@@ -49,12 +54,12 @@ void jbeau::level::create_level(jbeau::state::GameState &state, int lvl) {
 		jbeau::state::get_new_brick(state)->spawn(150, 20, 40, 5, jbeau::brick::BrickType::BRICK);
 		jbeau::state::get_new_brick(state)->spawn(210, 15, 10, 10, jbeau::brick::BrickType::FINISH);
 
-		get_new_moving(state)->init(25, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
-		get_new_moving(state)->init(80, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
-		get_new_moving(state)->init(65, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
-		get_new_moving(state)->init(120, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
-		get_new_moving(state)->init(160, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
-		get_new_moving(state)->init(175, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
+		jbeau::state::get_new_enemy(state)->spawn(25, 10);
+		jbeau::state::get_new_enemy(state)->spawn(80, 10);
+		jbeau::state::get_new_enemy(state)->spawn(65, 10);
+		jbeau::state::get_new_enemy(state)->spawn(120, 10);
+		jbeau::state::get_new_enemy(state)->spawn(160, 10);
+		jbeau::state::get_new_enemy(state)->spawn(175, 10);
 		break;
 		
 		case 3:
@@ -63,12 +68,12 @@ void jbeau::level::create_level(jbeau::state::GameState &state, int lvl) {
 		jbeau::state::get_new_brick(state)->spawn(120, 15, 15, 10, jbeau::brick::BrickType::BRICK);
 		jbeau::state::get_new_brick(state)->spawn(160, 10, 15, 15, jbeau::brick::BrickType::FINISH);
 
-		get_new_moving(state)->init(25, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
-		get_new_moving(state)->init(50, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
-		get_new_moving(state)->init(80, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
-		get_new_moving(state)->init(90, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
-		get_new_moving(state)->init(120, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
-		get_new_moving(state)->init(130, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
+		jbeau::state::get_new_enemy(state)->spawn(25, 10);
+		jbeau::state::get_new_enemy(state)->spawn(50, 10);
+		jbeau::state::get_new_enemy(state)->spawn(80, 10);
+		jbeau::state::get_new_enemy(state)->spawn(90, 10);
+		jbeau::state::get_new_enemy(state)->spawn(120, 10);
+		jbeau::state::get_new_enemy(state)->spawn(130, 10);
 		
 		lvl = 1;
 		break;

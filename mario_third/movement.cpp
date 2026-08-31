@@ -27,16 +27,6 @@ void jbeau::movement::vert_move_object(jbeau::state::GameState &state,
 				obj->is_fly = false;
 			}
 			
-			if ((state.brick[i].c_type == jbeau::state::BONUS_BRICK_SYMBOL) 
-				&& (obj->vert_speed < 0) 
-			    && (obj == &state.mario)) {
-				state.brick[i].c_type = jbeau::state::EMPTY_BRICK_SYMBOL;
-				jbeau::state::get_new_moving(state)->init(state.brick[i].x, 
-														  state.brick[i].y - 3, 3, 2, 
-								                          jbeau::state::MONEY_SYMBOL);
-				state.moving[state.moving_length - 1].vert_speed = jbeau::state::MOVING_VERT_SPEED;
-			}
-			
 			obj->y -= obj->vert_speed;
 			obj->vert_speed = 0;
 
@@ -93,7 +83,11 @@ void jbeau::movement::horizon_move_map(jbeau::state::GameState &state, float dx)
 		state.brick[i].x += dx;
 	}
 	
-	for (int i = 0; i < state.moving_length; i++) {
-		state.moving[i].x += dx;
+	for (int i = 0; i < state.enemy_length; i++) {
+		state.enemy[i].x += dx;
+	}
+
+	for (int i = 0; i < state.money_length; i++) {
+		state.money[i].x += dx;
 	}
 }

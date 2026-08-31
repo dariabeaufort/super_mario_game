@@ -44,9 +44,6 @@ namespace jbeau {
 			jbeau::brick::Brick *brick = nullptr;
 			int brick_length = 0;
 
-			jbeau::object::Object *moving = nullptr;
-			int moving_length = 0;
-
 			jbeau::enemy::Enemy *enemy = nullptr;
 			int enemy_length = 0;
 			
@@ -57,13 +54,8 @@ namespace jbeau {
 			int score = 0;
 			int max_lvl = 3;
 		};
-		
-		void delete_moving(GameState &state, int i);
 
 		jbeau::brick::Brick *get_new_brick(GameState &state);
-		jbeau::object::Object *get_new_moving(GameState &state);
-		jbeau::enemy::Enemy *get_new_enemy(GameState &state);
-		jbeau::money::Money *get_new_money(GameState &state);
 		
 		jbeau::enemy::Enemy *get_new_enemy(GameState &state);
 		void delete_enemy(GameState &state, int i);
