@@ -4,6 +4,9 @@
 #include "mario.hpp"
 #include "object.hpp"
 
+#include "enemy.hpp"
+#include "money.hpp"
+
 namespace jbeau {
 	namespace state {
 		static const int MAP_WIDTH = 80;
@@ -44,13 +47,28 @@ namespace jbeau {
 			jbeau::object::Object *moving = nullptr;
 			int moving_length = 0;
 
+			jbeau::enemy::Enemy *enemy = nullptr;
+			int enemy_length = 0;
+			
+			jbeau::money::Money *money = nullptr;
+			int money_length = 0;
+
 			int level = 1;
 			int score = 0;
 			int max_lvl = 3;
 		};
 		
 		void delete_moving(GameState &state, int i);
+
 		jbeau::brick::Brick *get_new_brick(GameState &state);
 		jbeau::object::Object *get_new_moving(GameState &state);
+		jbeau::enemy::Enemy *get_new_enemy(GameState &state);
+		jbeau::money::Money *get_new_money(GameState &state);
+		
+		jbeau::enemy::Enemy *get_new_enemy(GameState &state);
+		void delete_enemy(GameState &state, int i);
+		
+		jbeau::money::Money *get_new_money(GameState &state);
+		void delete_money(GameState &state, int i);
 	}
 }

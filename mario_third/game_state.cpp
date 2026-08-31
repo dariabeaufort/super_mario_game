@@ -9,6 +9,7 @@ void jbeau::state::delete_moving(GameState &state, int i) {
 			 realloc(state.moving, sizeof(*state.moving) * state.moving_length));
 }
 
+
 jbeau::brick::Brick *jbeau::state::get_new_brick(GameState &state) {
     state.brick_length++;
 
@@ -19,15 +20,77 @@ jbeau::brick::Brick *jbeau::state::get_new_brick(GameState &state) {
     }
 
     delete[] state.brick;
-
     state.brick = new_brick;
 
     return &state.brick[state.brick_length - 1];
 }
+
 
 jbeau::object::Object *jbeau::state::get_new_moving(GameState &state) {
 	state.moving_length++;
 	state.moving = static_cast<jbeau::object::Object*>(
 			 realloc(state.moving, sizeof(*state.moving) * state.moving_length));
 	return state.moving + state.moving_length - 1;
+}
+
+
+jbeau::enemy::Enemy *jbeau::state::get_new_enemy(GameState &state) {
+    state.enemy_length++;
+
+    jbeau::enemy::Enemy *new_enemy = new jbeau::enemy::Enemy[state.enemy_length];
+
+    for (int i = 0; i < state.enemy_length - 1; i++) {
+        new_enemy[i] = state.enemy[i];
+    }
+
+    delete[] state.enemy;
+    state.enemy = new_enemy;
+
+    return &state.enemy[state.enemy_length - 1];
+}
+
+
+void jbeau::state::delete_enemy(GameState &state, int i) {
+    state.enemy_length--;
+
+    state.enemy[i] = state.enemy[state.enemy_length];
+
+    jbeau::enemy::Enemy *new_enemy = new jbeau::enemy::Enemy[state.enemy_length];
+
+    for (int j = 0; j < state.enemy_length; j++) {
+        new_enemy[j] = state.enemy[j];
+    }
+
+    delete[] state.enemy;
+    state.enemy = new_enemy;
+}
+
+jbeau::money::Money *jbeau::state::get_new_money(GameState &state) {
+    state.money_length++;
+
+    jbeau::money::Money *new_money = new jbeau::money::Money[state.money_length];
+
+    for (int i = 0; i < state.money_length - 1; i++) {
+        new_money[i] = state.money[i];
+    }
+
+    delete[] state.money;
+    state.money = new_money;
+
+    return &state.money[state.money_length - 1];
+}
+
+void jbeau::state::delete_money(GameState &state, int i) {
+    state.money_length--;
+
+    state.money[i] = state.money[state.money_length];
+
+    jbeau::money::Money *new_money = new jbeau::money::Money[state.money_length];
+
+    for (int j = 0; j < state.money_length; j++) {
+        new_money[j] = state.money[j];
+    }
+
+    delete[] state.money;
+    state.money = new_money;
 }
