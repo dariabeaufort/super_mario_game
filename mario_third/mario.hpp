@@ -1,5 +1,6 @@
 #pragma once
 
+#include "brick.hpp"
 #include "object.hpp"
 
 namespace jbeau {

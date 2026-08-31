@@ -50,10 +50,10 @@ void jbeau::mario::Mario::vert_movement(
                 is_fly = false;
             }
 
-            if ((state.brick[i].c_type == jbeau::state::BONUS_BRICK_SYMBOL)
+            if ((state.brick[i].get_type() == jbeau::brick::BrickType::BONUS)
                 && (vert_speed < 0)) {
 
-                state.brick[i].c_type = jbeau::state::EMPTY_BRICK_SYMBOL;
+                state.brick[i].hit();
 
 				jbeau::state::get_new_moving(state)->init(
 					state.brick[i].x, state.brick[i].y - 3, 3, 2,
@@ -67,7 +67,7 @@ void jbeau::mario::Mario::vert_movement(
             y -= vert_speed;
             vert_speed = 0;
 
-            if (state.brick[i].c_type == jbeau::state::FINISH_SYMBOL) {
+            if (state.brick[i].is_finish()) {
                 reached_finish = true;
             }
 

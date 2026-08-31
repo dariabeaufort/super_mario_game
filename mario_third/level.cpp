@@ -22,32 +22,32 @@ void jbeau::level::create_level(jbeau::state::GameState &state, int lvl) {
 	
 	switch(lvl) {
 		case 1:
-		get_new_brick(state)->init(20, 20, 40, 5, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(60, 15, 40, 10, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(100, 20, 20, 5, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(120, 15, 10, 10, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(150, 20, 40, 5, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(210, 15, 10, 10, jbeau::state::FINISH_SYMBOL);
+		jbeau::state::get_new_brick(state)->spawn(20, 20, 40, 5, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(60, 15, 40, 10, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(100, 20, 20, 5, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(120, 15, 10, 10, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(150, 20, 40, 5, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(210, 15, 10, 10, jbeau::brick::BrickType::FINISH);
 		
-		get_new_brick(state)->init(30, 10, 5, 3, jbeau::state::BONUS_BRICK_SYMBOL);
-		get_new_brick(state)->init(50, 10, 5, 3, jbeau::state::BONUS_BRICK_SYMBOL);
-		get_new_brick(state)->init(60, 5, 10, 3, jbeau::state::EMPTY_BRICK_SYMBOL);
-		get_new_brick(state)->init(70, 5, 5, 3, jbeau::state::BONUS_BRICK_SYMBOL);
-		get_new_brick(state)->init(75, 5, 5, 3, jbeau::state::EMPTY_BRICK_SYMBOL);
-		get_new_brick(state)->init(80, 5, 5, 3, jbeau::state::BONUS_BRICK_SYMBOL);
-		get_new_brick(state)->init(85, 5, 10, 3, jbeau::state::EMPTY_BRICK_SYMBOL);
+		jbeau::state::get_new_brick(state)->spawn(30, 10, 5, 3, jbeau::brick::BrickType::BONUS);
+		jbeau::state::get_new_brick(state)->spawn(50, 10, 5, 3, jbeau::brick::BrickType::BONUS);
+		jbeau::state::get_new_brick(state)->spawn(60, 5, 10, 3, jbeau::brick::BrickType::EMPTY);
+		jbeau::state::get_new_brick(state)->spawn(70, 5, 5, 3, jbeau::brick::BrickType::BONUS);
+		jbeau::state::get_new_brick(state)->spawn(75, 5, 5, 3, jbeau::brick::BrickType::EMPTY);
+		jbeau::state::get_new_brick(state)->spawn(80, 5, 5, 3, jbeau::brick::BrickType::BONUS);
+		jbeau::state::get_new_brick(state)->spawn(85, 5, 10, 3, jbeau::brick::BrickType::EMPTY);
 		
 		get_new_moving(state)->init(25, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
 		get_new_moving(state)->init(80, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
 		break;
 		
 		case 2:
-		get_new_brick(state)->init(20, 20, 40, 5, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(60, 15, 10, 10, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(80, 20, 20, 5, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(120, 15, 10, 10, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(150, 20, 40, 5, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(210, 15, 10, 10, jbeau::state::FINISH_SYMBOL);
+		jbeau::state::get_new_brick(state)->spawn(20, 20, 40, 5, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(60, 15, 10, 10, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(80, 20, 20, 5, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(120, 15, 10, 10, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(150, 20, 40, 5, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(210, 15, 10, 10, jbeau::brick::BrickType::FINISH);
 
 		get_new_moving(state)->init(25, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
 		get_new_moving(state)->init(80, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
@@ -58,10 +58,10 @@ void jbeau::level::create_level(jbeau::state::GameState &state, int lvl) {
 		break;
 		
 		case 3:
-		get_new_brick(state)->init(20, 20, 40, 5, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(80, 20, 15, 5, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(120, 15, 15, 10, jbeau::state::BRICK_SYMBOL);
-		get_new_brick(state)->init(160, 10, 15, 15, jbeau::state::FINISH_SYMBOL);
+		jbeau::state::get_new_brick(state)->spawn(20, 20, 40, 5, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(80, 20, 15, 5, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(120, 15, 15, 10, jbeau::brick::BrickType::BRICK);
+		jbeau::state::get_new_brick(state)->spawn(160, 10, 15, 15, jbeau::brick::BrickType::FINISH);
 
 		get_new_moving(state)->init(25, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
 		get_new_moving(state)->init(50, 10, 3, 2, jbeau::state::ENEMY_SYMBOL);
