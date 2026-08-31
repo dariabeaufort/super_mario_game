@@ -10,8 +10,9 @@
 void jbeau::level::create_level(jbeau::state::GameState &state, int lvl) {
 	system("color DF");
 	
+	delete[] state.brick;
+	state.brick = nullptr;
 	state.brick_length = 0;
-	state.brick = static_cast<jbeau::object::Object*>(realloc(state.brick, 0));
 
 	state.moving_length = 0;
 	state.moving = static_cast<jbeau::object::Object*>(realloc(state.moving, 0));

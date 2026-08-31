@@ -1,7 +1,8 @@
 #pragma once
 
-#include "object.hpp"
+#include "brick.hpp"
 #include "mario.hpp"
+#include "object.hpp"
 
 namespace jbeau {
 	namespace state {
@@ -37,7 +38,7 @@ namespace jbeau {
 			char map[MAP_HEIGHT][MAP_WIDTH + 1];
 			jbeau::mario::Mario mario;
 
-			jbeau::object::Object *brick = nullptr;
+			jbeau::brick::Brick *brick = nullptr;
 			int brick_length = 0;
 
 			jbeau::object::Object *moving = nullptr;
@@ -49,7 +50,7 @@ namespace jbeau {
 		};
 		
 		void delete_moving(GameState &state, int i);
-		jbeau::object::Object *get_new_brick(GameState &state);
+		jbeau::brick::Brick *get_new_brick(GameState &state);
 		jbeau::object::Object *get_new_moving(GameState &state);
 	}
 }

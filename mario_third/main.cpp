@@ -29,6 +29,21 @@ int main() {
 		}
 		
 		state.mario.vert_movement(state);
+		
+		if (state.mario.get_reached_finish()) {
+			state.level++;
+
+			if (state.level > state.max_lvl) {
+				state.level = 1;
+			}
+
+			system("color 2F");
+			Sleep(jbeau::state::LVL_SWITCH_TIME_MS);
+
+			jbeau::level::create_level(state, state.level);
+			continue;
+		}
+		
 		jbeau::collision::mario_collision(state);
 		
 		for (int i = 0; i < state.brick_length; i++) {
@@ -55,7 +70,7 @@ int main() {
 		Sleep(jbeau::state::FRAME_SLEEP_MS);
 	} while (GetKeyState(VK_ESCAPE) >= 0);
 	
-	free(state.brick);
+	delete[] state.brick;
 	free(state.moving);
 	
 	return 0;
