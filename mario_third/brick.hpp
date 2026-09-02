@@ -18,6 +18,7 @@ namespace jbeau {
 				bool was_hit;
 			public:
 				Brick();
+				~Brick() = default;
 				
 				void spawn(float x_pos, float y_pos,
 						   float obj_width, float obj_height,

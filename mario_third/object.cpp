@@ -1,6 +1,6 @@
-#include "game_state.hpp"
-
 #include "object.hpp"
+
+#include "game_state.hpp"
 
 void jbeau::object::Object::set_pos(float x_pos, float y_pos) {
 	x = x_pos;

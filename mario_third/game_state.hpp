@@ -1,11 +1,10 @@
 #pragma once
 
 #include "brick.hpp"
-#include "mario.hpp"
-#include "object.hpp"
-
 #include "enemy.hpp"
+#include "mario.hpp"
 #include "money.hpp"
+#include "object.hpp"
 
 namespace jbeau {
 	namespace state {

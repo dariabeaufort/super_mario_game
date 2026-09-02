@@ -1,7 +1,6 @@
-#include "game_state.hpp"
-#include "movement.hpp"
-
 #include "collision.hpp"
+
+#include "game_state.hpp"
 
 bool jbeau::collision::is_collision(
 	const jbeau::object::Object &obj_1,

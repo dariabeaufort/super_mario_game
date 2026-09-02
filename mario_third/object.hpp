@@ -11,6 +11,8 @@ namespace jbeau {
 			char c_type;
 			float horiz_speed;
 			
+		~Object() = default;
+			
 		void set_pos(float x_pos, float y_pos);
 		void init(float x_pos, float y_pos, 
 				  float obj_width, float obj_height, 

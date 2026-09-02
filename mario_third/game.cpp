@@ -1,7 +1,7 @@
-#include "game.hpp"
-
 #include <cstdlib>
 #include <windows.h>
+
+#include "game.hpp"
 
 #include "collision.hpp"
 #include "level.hpp"

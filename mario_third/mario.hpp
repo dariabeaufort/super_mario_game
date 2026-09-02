@@ -2,8 +2,8 @@
 
 #include "brick.hpp"
 #include "enemy.hpp"
-#include "object.hpp"
 #include "money.hpp"
+#include "object.hpp"
 
 namespace jbeau {
     namespace state {
@@ -18,6 +18,7 @@ namespace jbeau {
 			int hit_brick_from_below;
         public:
             Mario();
+			~Mario() = default;
 			void spawn();
 			void jump();
 			void death();

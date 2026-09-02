@@ -1,7 +1,7 @@
 #include "money.hpp"
 
-#include "game_state.hpp"
 #include "collision.hpp"
+#include "game_state.hpp"
 
 jbeau::money::Money::Money() {
 	x = -1000;

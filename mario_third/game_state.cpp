@@ -2,7 +2,6 @@
 
 #include "game_state.hpp"
 
-
 jbeau::brick::Brick *jbeau::state::get_new_brick(GameState &state) {
     state.brick_length++;
 
@@ -18,7 +17,6 @@ jbeau::brick::Brick *jbeau::state::get_new_brick(GameState &state) {
     return &state.brick[state.brick_length - 1];
 }
 
-
 jbeau::enemy::Enemy *jbeau::state::get_new_enemy(GameState &state) {
     state.enemy_length++;
 
@@ -33,7 +31,6 @@ jbeau::enemy::Enemy *jbeau::state::get_new_enemy(GameState &state) {
 
     return &state.enemy[state.enemy_length - 1];
 }
-
 
 void jbeau::state::delete_enemy(GameState &state, int i) {
     state.enemy_length--;

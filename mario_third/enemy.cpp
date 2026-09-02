@@ -1,7 +1,7 @@
 #include "enemy.hpp"
 
-#include "game_state.hpp"
 #include "collision.hpp"
+#include "game_state.hpp"
 
 jbeau::enemy::Enemy::Enemy() {
     x = -1000;
