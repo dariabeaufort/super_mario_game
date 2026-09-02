@@ -12,9 +12,7 @@ bool jbeau::collision::is_collision(
 		   && ((obj_1.y + obj_1.height) > obj_2.y)
 		   && (obj_1.y < (obj_2.y + obj_2.height));
 }
-
-/*
-void jbeau::collision::mario_collision(jbeau::state::GameState &state) {
+/*void jbeau::collision::mario_collision(jbeau::state::GameState &state) {
 	for (int i = 0; i < state.moving_length; i++) {
 		if (jbeau::collision::is_collision(state.mario, state.moving[i])) {
 			if (state.moving[i].c_type == jbeau::state::ENEMY_SYMBOL) {
