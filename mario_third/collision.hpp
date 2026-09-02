@@ -9,7 +9,5 @@ namespace jbeau {
 			const jbeau::object::Object &obj_1,
 			const jbeau::object::Object &obj_2
 		);
-		
-		//void mario_collision(jbeau::state::GameState &state);
 	}
 }
