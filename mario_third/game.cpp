@@ -161,26 +161,25 @@ void jbeau::game::Game::next_level() {
 }
 
 void jbeau::game::Game::show() {
-    jbeau::render::clear_map(state);
+    renderer.clear_map();
 
     for (int i = 0; i < level.get_brick_count(); i++) {
-        jbeau::render::put_object_on_map(state, level.get_bricks()[i]);
+        renderer.put_object_on_map(level.get_bricks()[i]);
     }
 
     for (int i = 0; i < level.get_enemy_count(); i++) {
-        jbeau::render::put_object_on_map(state, level.get_enemies()[i]);
+        renderer.put_object_on_map(level.get_enemies()[i]);
     }
 
     for (int i = 0; i < level.get_money_count(); i++) {
-        jbeau::render::put_object_on_map(state, level.get_money()[i]);
+        renderer.put_object_on_map(level.get_money()[i]);
     }
 
-    jbeau::render::put_object_on_map(state, state.mario);
-
-    jbeau::render::put_score_on_map(state);
-    jbeau::render::set_cur(0, 0);
-
-    jbeau::render::show_map(state);
+    renderer.put_object_on_map(state.mario);
+    renderer.put_score_on_map(state.score);
+	
+    renderer.set_cur(0, 0);
+    renderer.show_map();
 }
 
 void jbeau::game::Game::stop() {

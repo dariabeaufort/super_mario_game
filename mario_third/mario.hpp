@@ -12,8 +12,7 @@ namespace jbeau {
 		private:
 			bool alive;
 			bool reached_finish;
-			float prev_y;
-			int hit_brick_from_below;
+			
         public:
             Mario();
 			~Mario() = default;

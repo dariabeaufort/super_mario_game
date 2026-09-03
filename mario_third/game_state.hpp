@@ -33,7 +33,6 @@ namespace jbeau {
 		static const char FINISH_SYMBOL = '+';
 		
 		struct GameState {
-			char map[MAP_HEIGHT][MAP_WIDTH + 1];
 			jbeau::mario::Mario mario;
 
 			int level = 1;

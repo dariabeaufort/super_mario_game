@@ -6,8 +6,6 @@
 
 jbeau::mario::Mario::Mario() {
     alive = true;
-    prev_y = 10;
-    hit_brick_from_below = -1;
     reached_finish = false;
 
     width = 3;
@@ -18,8 +16,6 @@ jbeau::mario::Mario::Mario() {
 }
 
 void jbeau::mario::Mario::spawn() {
-    prev_y = y;
-
     x = 39;
     y = 10;
 
@@ -29,7 +25,6 @@ void jbeau::mario::Mario::spawn() {
     is_fly = true;
     alive = true;
 
-    hit_brick_from_below = -1;
     reached_finish = false;
 }
 
@@ -47,12 +42,10 @@ void jbeau::mario::Mario::gravity() {
 }
 
 void jbeau::mario::Mario::vert_movement(jbeau::level::Level& level) {
-    prev_y = y;
     is_fly = true;
 
     gravity();
 
-    hit_brick_from_below = -1;
     reached_finish = false;
 
     set_pos(x, y + vert_speed);
@@ -62,8 +55,6 @@ void jbeau::mario::Mario::vert_movement(jbeau::level::Level& level) {
 
             if (vert_speed > 0) {
                 is_fly = false;
-            } else if (vert_speed < 0) {
-                hit_brick_from_below = i;
             }
 
             if (level.get_bricks()[i].get_type() == jbeau::brick::BrickType::BONUS
@@ -111,12 +102,4 @@ bool jbeau::mario::Mario::get_alive() const {
 
 bool jbeau::mario::Mario::get_reached_finish() const {
     return reached_finish;
-}
-
-float jbeau::mario::Mario::get_prev_y() const {
-    return prev_y;
-}
-
-int jbeau::mario::Mario::get_hit_brick_from_below() const {
-    return hit_brick_from_below;
 }

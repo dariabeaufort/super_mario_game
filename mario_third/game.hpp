@@ -2,6 +2,7 @@
 
 #include "game_state.hpp"
 #include "level.hpp"
+#include "render.hpp"
 
 namespace jbeau {
     namespace game {
@@ -9,6 +10,7 @@ namespace jbeau {
         private:
             jbeau::state::GameState state;
 			jbeau::level::Level level;
+			jbeau::render::Render renderer;
 
             bool is_running;
 
