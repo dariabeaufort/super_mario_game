@@ -1,6 +1,8 @@
 #include "brick.hpp"
 
-jbeau::brick::Brick::Brick() {
+using namespace jbeau;
+
+brick::Brick::Brick() {
     x = -1000;
     y = -1000;
 
@@ -18,7 +20,7 @@ jbeau::brick::Brick::Brick() {
     was_hit = false;
 }
 
-void jbeau::brick::Brick::spawn(
+void brick::Brick::spawn(
     float x_pos,
     float y_pos,
     float obj_width,
@@ -53,7 +55,7 @@ void jbeau::brick::Brick::spawn(
     }
 }
 
-void jbeau::brick::Brick::hit() {
+void brick::Brick::hit() {
     if (brick_type == BrickType::BONUS && !was_hit) {
         brick_type = BrickType::EMPTY;
         c_type = '-';
@@ -61,14 +63,14 @@ void jbeau::brick::Brick::hit() {
     }
 }
 
-jbeau::brick::BrickType jbeau::brick::Brick::get_type() const {
+brick::BrickType jbeau::brick::Brick::get_type() const {
     return brick_type;
 }
 
-bool jbeau::brick::Brick::is_finish() const {
+bool brick::Brick::is_finish() const {
     return brick_type == BrickType::FINISH;
 }
 
-bool jbeau::brick::Brick::get_was_hit() const {
+bool brick::Brick::get_was_hit() const {
     return was_hit;
 }

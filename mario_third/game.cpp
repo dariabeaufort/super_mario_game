@@ -1,13 +1,15 @@
+#include "game.hpp"
+
 #include <cstdlib>
 #include <windows.h>
-
-#include "game.hpp"
 
 #include "collision.hpp"
 #include "level.hpp"
 #include "render.hpp"
 
-jbeau::game::Game::Game() {
+using namespace jbeau;
+
+game::Game::Game() {
     is_running = false;
 
     state.level = 1;
@@ -15,11 +17,11 @@ jbeau::game::Game::Game() {
     state.max_lvl = 3;
 }
 
-jbeau::game::Game::~Game() {
+game::Game::~Game() {
 	is_running = false;
 }
 
-void jbeau::game::Game::init() {
+void game::Game::init() {
     is_running = true;
 
 	state.level = 1;
@@ -28,17 +30,17 @@ void jbeau::game::Game::init() {
     level.create_level(state.level);
 }
 
-void jbeau::game::Game::run() {
+void game::Game::run() {
     while (is_running) {
         input();
         update();
         show();
 
-        Sleep(jbeau::state::FRAME_SLEEP_MS);
+        Sleep(state::FRAME_SLEEP_MS);
     }
 }
 
-void jbeau::game::Game::input() {
+void game::Game::input() {
     if (GetKeyState(VK_ESCAPE) < 0) {
         stop();
         return;
@@ -56,16 +58,16 @@ void jbeau::game::Game::input() {
         horizon_move_map(-1);
     }
 
-    if (state.mario.y > jbeau::state::MAP_HEIGHT) {
+    if (state.mario.y > state::MAP_HEIGHT) {
         state.mario.death();
     }
 }
 
-void jbeau::game::Game::horizon_move_map(float dx) {
+void game::Game::horizon_move_map(float dx) {
     state.mario.x -= dx;
 
     for (int i = 0; i < level.get_brick_count(); i++) {
-        if (jbeau::collision::is_collision(state.mario, level.get_bricks()[i])) {
+        if (collision::is_collision(state.mario, level.get_bricks()[i])) {
             state.mario.x += dx;
             return;
         }
@@ -86,7 +88,7 @@ void jbeau::game::Game::horizon_move_map(float dx) {
     }
 }
 
-void jbeau::game::Game::update() {
+void game::Game::update() {
     state.mario.vert_movement(level);
 
     if (state.mario.get_reached_finish()) {
@@ -111,10 +113,10 @@ void jbeau::game::Game::update() {
     }
 }
 
-void jbeau::game::Game::handle_collisions() {
+void game::Game::handle_collisions() {
     for (int i = 0; i < level.get_enemy_count(); i++) {
         if (state.mario.up_enemy_collision(level.get_enemies()[i])) {
-            state.score += jbeau::state::ENEMY_SCORE;
+            state.score += state::ENEMY_SCORE;
             level.remove_enemy(i);
             i--;
             continue;
@@ -128,7 +130,7 @@ void jbeau::game::Game::handle_collisions() {
 
     for (int i = 0; i < level.get_money_count(); i++) {
         if (state.mario.money_collision(level.get_money()[i])) {
-            state.score += jbeau::state::MONEY_SCORE;
+            state.score += state::MONEY_SCORE;
             level.remove_money(i);
             i--;
             continue;
@@ -136,16 +138,16 @@ void jbeau::game::Game::handle_collisions() {
     }
 }
 
-void jbeau::game::Game::player_dead() {
+void game::Game::player_dead() {
     system("color 4F");
-    Sleep(jbeau::state::DEAD_SCREEN_TIME_MS);
+    Sleep(state::DEAD_SCREEN_TIME_MS);
 
     level.create_level(state.level);
 	state.mario.spawn();
 	state.score = 0;
 }
 
-void jbeau::game::Game::next_level() {
+void game::Game::next_level() {
     state.level++;
 
     if (state.level > state.max_lvl) {
@@ -153,14 +155,14 @@ void jbeau::game::Game::next_level() {
     }
 
     system("color 2F");
-    Sleep(jbeau::state::LVL_SWITCH_TIME_MS);
+    Sleep(state::LVL_SWITCH_TIME_MS);
 
     level.create_level(state.level);
 	state.mario.spawn();
 	state.score = 0;
 }
 
-void jbeau::game::Game::show() {
+void game::Game::show() {
     renderer.clear_map();
 
     for (int i = 0; i < level.get_brick_count(); i++) {
@@ -182,6 +184,6 @@ void jbeau::game::Game::show() {
     renderer.show_map();
 }
 
-void jbeau::game::Game::stop() {
+void game::Game::stop() {
     is_running = false;
 }

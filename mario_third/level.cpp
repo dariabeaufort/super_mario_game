@@ -3,7 +3,9 @@
 #include <cstdlib>
 #include <windows.h>
 
-jbeau::level::Level::Level() {
+using namespace jbeau;
+
+level::Level::Level() {
     level = 1;
 
     bricks = nullptr;
@@ -15,11 +17,11 @@ jbeau::level::Level::Level() {
     money_count = 0;
 }
 
-jbeau::level::Level::~Level() {
+level::Level::~Level() {
     clear();
 }
 
-void jbeau::level::Level::clear() {
+void level::Level::clear() {
     delete[] bricks;
     delete[] enemies;
     delete[] money;
@@ -33,7 +35,7 @@ void jbeau::level::Level::clear() {
     money_count = 0;
 }
 
-void jbeau::level::Level::create_level(int level_number) {
+void level::Level::create_level(int level_number) {
     system("color DF");
 
     clear();
@@ -45,26 +47,26 @@ void jbeau::level::Level::create_level(int level_number) {
     switch (level) {
         case 1:
             brick_count = 13;
-            bricks = new jbeau::brick::Brick[brick_count];
+            bricks = new brick::Brick[brick_count];
 
             i = 0;
-            bricks[i++].spawn(20, 20, 40, 5, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(60, 15, 40, 10, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(100, 20, 20, 5, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(120, 15, 10, 10, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(150, 20, 40, 5, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(210, 15, 10, 10, jbeau::brick::BrickType::FINISH);
+            bricks[i++].spawn(20, 20, 40, 5, brick::BrickType::BRICK);
+            bricks[i++].spawn(60, 15, 40, 10, brick::BrickType::BRICK);
+            bricks[i++].spawn(100, 20, 20, 5, brick::BrickType::BRICK);
+            bricks[i++].spawn(120, 15, 10, 10, brick::BrickType::BRICK);
+            bricks[i++].spawn(150, 20, 40, 5, brick::BrickType::BRICK);
+            bricks[i++].spawn(210, 15, 10, 10, brick::BrickType::FINISH);
 
-            bricks[i++].spawn(30, 10, 5, 3, jbeau::brick::BrickType::BONUS);
-            bricks[i++].spawn(50, 10, 5, 3, jbeau::brick::BrickType::BONUS);
-            bricks[i++].spawn(60, 5, 10, 3, jbeau::brick::BrickType::EMPTY);
-            bricks[i++].spawn(70, 5, 5, 3, jbeau::brick::BrickType::BONUS);
-            bricks[i++].spawn(75, 5, 5, 3, jbeau::brick::BrickType::EMPTY);
-            bricks[i++].spawn(80, 5, 5, 3, jbeau::brick::BrickType::BONUS);
-            bricks[i++].spawn(85, 5, 10, 3, jbeau::brick::BrickType::EMPTY);
+            bricks[i++].spawn(30, 10, 5, 3, brick::BrickType::BONUS);
+            bricks[i++].spawn(50, 10, 5, 3, brick::BrickType::BONUS);
+            bricks[i++].spawn(60, 5, 10, 3, brick::BrickType::EMPTY);
+            bricks[i++].spawn(70, 5, 5, 3, brick::BrickType::BONUS);
+            bricks[i++].spawn(75, 5, 5, 3, brick::BrickType::EMPTY);
+            bricks[i++].spawn(80, 5, 5, 3, brick::BrickType::BONUS);
+            bricks[i++].spawn(85, 5, 10, 3, brick::BrickType::EMPTY);
 
             enemy_count = 2;
-            enemies = new jbeau::enemy::Enemy[enemy_count];
+            enemies = new enemy::Enemy[enemy_count];
 
             i = 0;
             enemies[i++].spawn(25, 10);
@@ -73,18 +75,18 @@ void jbeau::level::Level::create_level(int level_number) {
 
         case 2:
             brick_count = 6;
-            bricks = new jbeau::brick::Brick[brick_count];
+            bricks = new brick::Brick[brick_count];
 
             i = 0;
-            bricks[i++].spawn(20, 20, 40, 5, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(60, 15, 10, 10, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(80, 20, 20, 5, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(120, 15, 10, 10, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(150, 20, 40, 5, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(210, 15, 10, 10, jbeau::brick::BrickType::FINISH);
+            bricks[i++].spawn(20, 20, 40, 5, brick::BrickType::BRICK);
+            bricks[i++].spawn(60, 15, 10, 10, brick::BrickType::BRICK);
+            bricks[i++].spawn(80, 20, 20, 5, brick::BrickType::BRICK);
+            bricks[i++].spawn(120, 15, 10, 10, brick::BrickType::BRICK);
+            bricks[i++].spawn(150, 20, 40, 5, brick::BrickType::BRICK);
+            bricks[i++].spawn(210, 15, 10, 10, brick::BrickType::FINISH);
 
             enemy_count = 6;
-            enemies = new jbeau::enemy::Enemy[enemy_count];
+            enemies = new enemy::Enemy[enemy_count];
 
             i = 0;
             enemies[i++].spawn(25, 10);
@@ -97,16 +99,16 @@ void jbeau::level::Level::create_level(int level_number) {
 
         case 3:
             brick_count = 4;
-            bricks = new jbeau::brick::Brick[brick_count];
+            bricks = new brick::Brick[brick_count];
 
             i = 0;
-            bricks[i++].spawn(20, 20, 40, 5, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(80, 20, 15, 5, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(120, 15, 15, 10, jbeau::brick::BrickType::BRICK);
-            bricks[i++].spawn(160, 10, 15, 15, jbeau::brick::BrickType::FINISH);
+            bricks[i++].spawn(20, 20, 40, 5, brick::BrickType::BRICK);
+            bricks[i++].spawn(80, 20, 15, 5, brick::BrickType::BRICK);
+            bricks[i++].spawn(120, 15, 15, 10, brick::BrickType::BRICK);
+            bricks[i++].spawn(160, 10, 15, 15, brick::BrickType::FINISH);
 
             enemy_count = 6;
-            enemies = new jbeau::enemy::Enemy[enemy_count];
+            enemies = new enemy::Enemy[enemy_count];
 
             i = 0;
             enemies[i++].spawn(25, 10);
@@ -123,10 +125,10 @@ void jbeau::level::Level::create_level(int level_number) {
     }
 }
 
-void jbeau::level::Level::spawn_money(float x_pos, float y_pos) {
+void level::Level::spawn_money(float x_pos, float y_pos) {
     money_count++;
 
-    jbeau::money::Money *new_money = new jbeau::money::Money[money_count];
+    money::Money *new_money = new money::Money[money_count];
     for (int i = 0; i < money_count - 1; i++) {
         new_money[i] = money[i];
     }
@@ -136,7 +138,7 @@ void jbeau::level::Level::spawn_money(float x_pos, float y_pos) {
     money[money_count - 1].spawn(x_pos, y_pos);
 }
 
-void jbeau::level::Level::remove_enemy(int index) {
+void level::Level::remove_enemy(int index) {
     if (index < 0 || index >= enemy_count) {
         return;
     }
@@ -144,10 +146,10 @@ void jbeau::level::Level::remove_enemy(int index) {
     enemy_count--;
     enemies[index] = enemies[enemy_count];
 
-    jbeau::enemy::Enemy *new_enemies = nullptr;
+    enemy::Enemy *new_enemies = nullptr;
 
     if (enemy_count > 0) {
-        new_enemies = new jbeau::enemy::Enemy[enemy_count];
+        new_enemies = new enemy::Enemy[enemy_count];
         for (int i = 0; i < enemy_count; i++) {
             new_enemies[i] = enemies[i];
         }
@@ -157,7 +159,7 @@ void jbeau::level::Level::remove_enemy(int index) {
     enemies = new_enemies;
 }
 
-void jbeau::level::Level::remove_money(int index) {
+void level::Level::remove_money(int index) {
     if (index < 0 || index >= money_count) {
         return;
     }
@@ -165,10 +167,10 @@ void jbeau::level::Level::remove_money(int index) {
     money_count--;
     money[index] = money[money_count];
 
-    jbeau::money::Money *new_money = nullptr;
+    money::Money *new_money = nullptr;
 
     if (money_count > 0) {
-        new_money = new jbeau::money::Money[money_count];
+        new_money = new money::Money[money_count];
         for (int i = 0; i < money_count; i++) {
             new_money[i] = money[i];
         }
@@ -178,30 +180,30 @@ void jbeau::level::Level::remove_money(int index) {
     money = new_money;
 }
 
-jbeau::brick::Brick *jbeau::level::Level::get_bricks() {
+brick::Brick *level::Level::get_bricks() {
     return bricks;
 }
 
-jbeau::enemy::Enemy *jbeau::level::Level::get_enemies() {
+enemy::Enemy *level::Level::get_enemies() {
     return enemies;
 }
 
-jbeau::money::Money *jbeau::level::Level::get_money() {
+money::Money *level::Level::get_money() {
     return money;
 }
 
-int jbeau::level::Level::get_brick_count() const {
+int level::Level::get_brick_count() const {
     return brick_count;
 }
 
-int jbeau::level::Level::get_enemy_count() const {
+int level::Level::get_enemy_count() const {
     return enemy_count;
 }
 
-int jbeau::level::Level::get_money_count() const {
+int level::Level::get_money_count() const {
     return money_count;
 }
 
-int jbeau::level::Level::get_level() const {
+int level::Level::get_level() const {
     return level;
 }

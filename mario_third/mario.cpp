@@ -4,18 +4,20 @@
 #include "game_state.hpp"
 #include "level.hpp"
 
-jbeau::mario::Mario::Mario() {
+using namespace jbeau;
+
+mario::Mario::Mario() {
     alive = true;
     reached_finish = false;
 
     width = 3;
     height = 3;
-    c_type = jbeau::state::PLAYER_SYMBOL;
+    c_type = state::PLAYER_SYMBOL;
 
     spawn();
 }
 
-void jbeau::mario::Mario::spawn() {
+void mario::Mario::spawn() {
     x = 39;
     y = 10;
 
@@ -28,20 +30,20 @@ void jbeau::mario::Mario::spawn() {
     reached_finish = false;
 }
 
-void jbeau::mario::Mario::jump() {
-    vert_speed = jbeau::state::JUMP_SPEED;
+void mario::Mario::jump() {
+    vert_speed = state::JUMP_SPEED;
     is_fly = true;
 }
 
-void jbeau::mario::Mario::death() {
+void mario::Mario::death() {
     alive = false;
 }
 
-void jbeau::mario::Mario::gravity() {
-    vert_speed += jbeau::state::GRAVITY;
+void mario::Mario::gravity() {
+    vert_speed += state::GRAVITY;
 }
 
-void jbeau::mario::Mario::vert_movement(jbeau::level::Level& level) {
+void mario::Mario::vert_movement(level::Level& level) {
     is_fly = true;
 
     gravity();
@@ -51,13 +53,13 @@ void jbeau::mario::Mario::vert_movement(jbeau::level::Level& level) {
     set_pos(x, y + vert_speed);
 
     for (int i = 0; i < level.get_brick_count(); i++) {
-        if (jbeau::collision::is_collision(*this, level.get_bricks()[i])) {
+        if (collision::is_collision(*this, level.get_bricks()[i])) {
 
             if (vert_speed > 0) {
                 is_fly = false;
             }
 
-            if (level.get_bricks()[i].get_type() == jbeau::brick::BrickType::BONUS
+            if (level.get_bricks()[i].get_type() == brick::BrickType::BONUS
                 && vert_speed < 0) {
 
                 if (!level.get_bricks()[i].get_was_hit()) {
@@ -79,12 +81,12 @@ void jbeau::mario::Mario::vert_movement(jbeau::level::Level& level) {
     }
 }
 
-bool jbeau::mario::Mario::enemy_collision(const jbeau::enemy::Enemy& enemy) const {
-    return jbeau::collision::is_collision(*this, enemy);
+bool mario::Mario::enemy_collision(const enemy::Enemy& enemy) const {
+    return collision::is_collision(*this, enemy);
 }
 
-bool jbeau::mario::Mario::up_enemy_collision(const jbeau::enemy::Enemy& enemy) const {
-    if (!jbeau::collision::is_collision(*this, enemy)) {
+bool mario::Mario::up_enemy_collision(const enemy::Enemy& enemy) const {
+    if (!collision::is_collision(*this, enemy)) {
         return false;
     }
 
@@ -92,14 +94,14 @@ bool jbeau::mario::Mario::up_enemy_collision(const jbeau::enemy::Enemy& enemy) c
 		   && y + height < enemy.y + enemy.height * 0.5f;
 }
 
-bool jbeau::mario::Mario::money_collision(const jbeau::money::Money& money) const {
-    return jbeau::collision::is_collision(*this, money);
+bool mario::Mario::money_collision(const money::Money& money) const {
+    return collision::is_collision(*this, money);
 }
 
-bool jbeau::mario::Mario::get_alive() const {
+bool mario::Mario::get_alive() const {
     return alive;
 }
 
-bool jbeau::mario::Mario::get_reached_finish() const {
+bool mario::Mario::get_reached_finish() const {
     return reached_finish;
 }
