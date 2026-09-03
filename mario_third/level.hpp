@@ -24,7 +24,7 @@ namespace jbeau {
             Level();
             ~Level();
 
-            void load(int level_number);
+            void create_level(int level_number);
 
             void spawn_money(float x_pos, float y_pos);
 

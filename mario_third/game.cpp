@@ -16,19 +16,16 @@ jbeau::game::Game::Game() {
 }
 
 jbeau::game::Game::~Game() {
-    delete[] state.brick;
-    delete[] state.enemy;
-    delete[] state.money;
-
-    state.brick = nullptr;
-    state.enemy = nullptr;
-    state.money = nullptr;
+	is_running = false;
 }
 
 void jbeau::game::Game::init() {
     is_running = true;
 
-    jbeau::level::create_level(state, state.level);
+	state.level = 1;
+	state.score = 0;
+
+    level.create_level(state.level);
 }
 
 void jbeau::game::Game::run() {
@@ -67,8 +64,8 @@ void jbeau::game::Game::input() {
 void jbeau::game::Game::horizon_move_map(float dx) {
     state.mario.x -= dx;
 
-    for (int i = 0; i < state.brick_length; i++) {
-        if (jbeau::collision::is_collision(state.mario, state.brick[i])) {
+    for (int i = 0; i < level.get_brick_count(); i++) {
+        if (jbeau::collision::is_collision(state.mario, level.get_bricks()[i])) {
             state.mario.x += dx;
             return;
         }
@@ -76,35 +73,35 @@ void jbeau::game::Game::horizon_move_map(float dx) {
 
     state.mario.x += dx;
 
-    for (int i = 0; i < state.brick_length; i++) {
-        state.brick[i].x += dx;
+    for (int i = 0; i < level.get_brick_count(); i++) {
+        level.get_bricks()[i].x += dx;
     }
 
-    for (int i = 0; i < state.enemy_length; i++) {
-        state.enemy[i].x += dx;
+    for (int i = 0; i < level.get_enemy_count(); i++) {
+        level.get_enemies()[i].x += dx;
     }
 
-    for (int i = 0; i < state.money_length; i++) {
-        state.money[i].x += dx;
+    for (int i = 0; i < level.get_money_count(); i++) {
+        level.get_money()[i].x += dx;
     }
 }
 
 void jbeau::game::Game::update() {
-    state.mario.vert_movement(state);
+    state.mario.vert_movement(level);
 
     if (state.mario.get_reached_finish()) {
         next_level();
         return;
     }
 
-    for (int i = 0; i < state.enemy_length; i++) {
-        state.enemy[i].vert_movement(state.brick, state.brick_length);
-        state.enemy[i].horizon_movement(state.brick, state.brick_length);
+    for (int i = 0; i < level.get_enemy_count(); i++) {
+        level.get_enemies()[i].vert_movement(level.get_bricks(), level.get_brick_count());
+        level.get_enemies()[i].horizon_movement(level.get_bricks(), level.get_brick_count());
     }
 
-    for (int i = 0; i < state.money_length; i++) {
-        state.money[i].vert_movement(state.brick, state.brick_length);
-        state.money[i].horizon_movement(state.brick, state.brick_length);
+    for (int i = 0; i < level.get_money_count(); i++) {
+        level.get_money()[i].vert_movement(level.get_bricks(), level.get_brick_count());
+        level.get_money()[i].horizon_movement(level.get_bricks(), level.get_brick_count());
     }
 
     handle_collisions();
@@ -115,24 +112,24 @@ void jbeau::game::Game::update() {
 }
 
 void jbeau::game::Game::handle_collisions() {
-    for (int i = 0; i < state.enemy_length; i++) {
-        if (state.mario.up_enemy_collision(state.enemy[i])) {
+    for (int i = 0; i < level.get_enemy_count(); i++) {
+        if (state.mario.up_enemy_collision(level.get_enemies()[i])) {
             state.score += jbeau::state::ENEMY_SCORE;
-            jbeau::state::delete_enemy(state, i);
+            level.remove_enemy(i);
             i--;
             continue;
         }
 
-        if (state.mario.enemy_collision(state.enemy[i])) {
+        if (state.mario.enemy_collision(level.get_enemies()[i])) {
             state.mario.death();
             return;
         }
     }
 
-    for (int i = 0; i < state.money_length; i++) {
-        if (state.mario.money_collision(state.money[i])) {
+    for (int i = 0; i < level.get_money_count(); i++) {
+        if (state.mario.money_collision(level.get_money()[i])) {
             state.score += jbeau::state::MONEY_SCORE;
-            jbeau::state::delete_money(state, i);
+            level.remove_money(i);
             i--;
             continue;
         }
@@ -143,7 +140,9 @@ void jbeau::game::Game::player_dead() {
     system("color 4F");
     Sleep(jbeau::state::DEAD_SCREEN_TIME_MS);
 
-    jbeau::level::create_level(state, state.level);
+    level.create_level(state.level);
+	state.mario.spawn();
+	state.score = 0;
 }
 
 void jbeau::game::Game::next_level() {
@@ -156,22 +155,24 @@ void jbeau::game::Game::next_level() {
     system("color 2F");
     Sleep(jbeau::state::LVL_SWITCH_TIME_MS);
 
-    jbeau::level::create_level(state, state.level);
+    level.create_level(state.level);
+	state.mario.spawn();
+	state.score = 0;
 }
 
 void jbeau::game::Game::show() {
     jbeau::render::clear_map(state);
 
-    for (int i = 0; i < state.brick_length; i++) {
-        jbeau::render::put_object_on_map(state, state.brick[i]);
+    for (int i = 0; i < level.get_brick_count(); i++) {
+        jbeau::render::put_object_on_map(state, level.get_bricks()[i]);
     }
 
-    for (int i = 0; i < state.enemy_length; i++) {
-        jbeau::render::put_object_on_map(state,state.enemy[i]);
+    for (int i = 0; i < level.get_enemy_count(); i++) {
+        jbeau::render::put_object_on_map(state, level.get_enemies()[i]);
     }
 
-    for (int i = 0; i < state.money_length; i++) {
-        jbeau::render::put_object_on_map(state, state.money[i]);
+    for (int i = 0; i < level.get_money_count(); i++) {
+        jbeau::render::put_object_on_map(state, level.get_money()[i]);
     }
 
     jbeau::render::put_object_on_map(state, state.mario);

@@ -1,12 +1,14 @@
 #pragma once
 
 #include "game_state.hpp"
+#include "level.hpp"
 
 namespace jbeau {
     namespace game {
         class Game {
         private:
             jbeau::state::GameState state;
+			jbeau::level::Level level;
 
             bool is_running;
 

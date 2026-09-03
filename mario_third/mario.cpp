@@ -58,7 +58,7 @@ void jbeau::mario::Mario::vert_movement(jbeau::level::Level& level) {
     set_pos(x, y + vert_speed);
 
     for (int i = 0; i < level.get_brick_count(); i++) {
-        if (jbeau::collision::is_collision(*this, level.get_bricks()) {
+        if (jbeau::collision::is_collision(*this, level.get_bricks()[i])) {
 
             if (vert_speed > 0) {
                 is_fly = false;
@@ -72,8 +72,7 @@ void jbeau::mario::Mario::vert_movement(jbeau::level::Level& level) {
                 if (!level.get_bricks()[i].get_was_hit()) {
                     level.get_bricks()[i].hit();
 
-                    jbeau::level::spawn_money(state)->spawn(level.brick[i].x, 
-															level.brick[i].y);
+                    level.spawn_money(level.get_bricks()[i].x, level.get_bricks()[i].y);
                 }
             }
 

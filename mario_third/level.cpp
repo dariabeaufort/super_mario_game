@@ -33,7 +33,7 @@ void jbeau::level::Level::clear() {
     money_count = 0;
 }
 
-void jbeau::level::Level::load(int level_number) {
+void jbeau::level::Level::create_level(int level_number) {
     system("color DF");
 
     clear();
@@ -202,6 +202,6 @@ int jbeau::level::Level::get_money_count() const {
     return money_count;
 }
 
-int jbeau::level::Level::level() const {
+int jbeau::level::Level::get_level() const {
     return level;
 }
