@@ -23,6 +23,8 @@ namespace jbeau {
         public:
             Level();
             ~Level();
+			Level(const Level&) = delete;
+			Level& operator=(const Level&) = delete;
 
             void create_level(int level_number);
 
