@@ -2,6 +2,7 @@
 
 #include "collision.hpp"
 #include "game_state.hpp"
+#include "level.hpp"
 
 jbeau::mario::Mario::Mario() {
     alive = true;
@@ -45,7 +46,7 @@ void jbeau::mario::Mario::gravity() {
     vert_speed += jbeau::state::GRAVITY;
 }
 
-void jbeau::mario::Mario::vert_movement(jbeau::state::GameState& state) {
+void jbeau::mario::Mario::vert_movement(jbeau::level::Level& level) {
     prev_y = y;
     is_fly = true;
 
@@ -56,8 +57,8 @@ void jbeau::mario::Mario::vert_movement(jbeau::state::GameState& state) {
 
     set_pos(x, y + vert_speed);
 
-    for (int i = 0; i < state.brick_length; i++) {
-        if (jbeau::collision::is_collision(*this, state.brick[i])) {
+    for (int i = 0; i < level.get_brick_count(); i++) {
+        if (jbeau::collision::is_collision(*this, level.get_bricks()) {
 
             if (vert_speed > 0) {
                 is_fly = false;
@@ -65,23 +66,21 @@ void jbeau::mario::Mario::vert_movement(jbeau::state::GameState& state) {
                 hit_brick_from_below = i;
             }
 
-            if (state.brick[i].get_type() == jbeau::brick::BrickType::BONUS
+            if (level.get_bricks()[i].get_type() == jbeau::brick::BrickType::BONUS
                 && vert_speed < 0) {
 
-                if (!state.brick[i].get_was_hit()) {
-                    state.brick[i].hit();
+                if (!level.get_bricks()[i].get_was_hit()) {
+                    level.get_bricks()[i].hit();
 
-                    jbeau::state::get_new_money(state)->spawn(
-                        state.brick[i].x,
-                        state.brick[i].y
-                    );
+                    jbeau::level::spawn_money(state)->spawn(level.brick[i].x, 
+															level.brick[i].y);
                 }
             }
 
             y -= vert_speed;
             vert_speed = 0;
 
-            if (state.brick[i].is_finish()) {
+            if (level.get_bricks()[i].is_finish()) {
                 reached_finish = true;
             }
 

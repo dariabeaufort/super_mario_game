@@ -40,26 +40,9 @@ namespace jbeau {
 			char map[MAP_HEIGHT][MAP_WIDTH + 1];
 			jbeau::mario::Mario mario;
 
-			jbeau::brick::Brick *brick = nullptr;
-			int brick_length = 0;
-
-			jbeau::enemy::Enemy *enemy = nullptr;
-			int enemy_length = 0;
-			
-			jbeau::money::Money *money = nullptr;
-			int money_length = 0;
-
 			int level = 1;
 			int score = 0;
 			int max_lvl = 3;
 		};
-
-		jbeau::brick::Brick *get_new_brick(GameState &state);
-		
-		jbeau::enemy::Enemy *get_new_enemy(GameState &state);
-		void delete_enemy(GameState &state, int i);
-		
-		jbeau::money::Money *get_new_money(GameState &state);
-		void delete_money(GameState &state, int i);
 	}
 }

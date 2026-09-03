@@ -2,13 +2,11 @@
 
 #include "brick.hpp"
 #include "enemy.hpp"
+#include "level.hpp"
 #include "money.hpp"
 #include "object.hpp"
 
 namespace jbeau {
-    namespace state {
-        struct GameState;
-    }
     namespace mario {
         class Mario : public jbeau::object::Object {
 		private:
@@ -24,7 +22,7 @@ namespace jbeau {
 			void death();
 			void gravity();
 			
-			void vert_movement(jbeau::state::GameState& state);
+			void vert_movement(jbeau::level::Level& level);
 			
 			bool enemy_collision(const jbeau::enemy::Enemy& enemy) const;
 			bool up_enemy_collision(const jbeau::enemy::Enemy& enemy) const;
