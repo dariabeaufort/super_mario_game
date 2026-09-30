@@ -19,10 +19,6 @@ render::Render::Render() {
 	}
 }
 
-render::Render::~Render() {
-    
-}
-
 bool render::Render::is_pos_in_map(int x, int y) const {
 	return ((x >= 0) && (x < state::MAP_WIDTH) 
 		   && (y >= 0) && (y < state::MAP_HEIGHT));
@@ -35,7 +31,7 @@ void render::Render::clear_map() {
 	map[0][state::MAP_WIDTH] = '\0';
 	
 	for (int j = 1; j < state::MAP_HEIGHT; j++) {
-		std::sprintf(map[j], map[0]);
+		std::memcpy(map[j], map[0], state::MAP_WIDTH + 1);
 	}
 }
 

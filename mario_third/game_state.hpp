@@ -26,11 +26,6 @@ namespace jbeau {
 
 		static const char ENEMY_SYMBOL = 'o';
 		static const char MONEY_SYMBOL = '$';
-
-		static const char BRICK_SYMBOL = '#';
-		static const char BONUS_BRICK_SYMBOL = '?';
-		static const char EMPTY_BRICK_SYMBOL = '-';
-		static const char FINISH_SYMBOL = '+';
 		
 		struct GameState {
 			jbeau::mario::Mario mario;

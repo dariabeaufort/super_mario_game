@@ -11,7 +11,7 @@ namespace jbeau {
 				bool is_pos_in_map(int x, int y) const;
 			public:
 				Render();
-				~Render();
+				~Render() = default;
 				void clear_map();
 				void show_map();
 				void set_cur(int x, int y);
